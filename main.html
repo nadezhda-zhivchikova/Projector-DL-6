@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>School Web Quests</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>School Web Quests</h1>
+  <p>HTML + CSS + JavaScript projects</p>
+</header>
+
+<section class="filters">
+  <button onclick="showClass('all')">All</button>
+  <button onclick="showClass('6c1')">6C1</button>
+  <button onclick="showClass('6c2')">6C2</button>
+</section>
+
+<main class="projects">
+
+  <a class="card 6c1" href="6c1/project1/index.html">
+    <h2>School Quest</h2>
+    <p>Class: 6C1</p>
+    <p>Author: Student name</p>
+  </a>
+
+  <a class="card 6c1" href="6c1/project2/index.html">
+    <h2>Zombie Survival</h2>
+    <p>Class: 6C1</p>
+    <p>Author: Student name</p>
+  </a>
+
+  <a class="card 6c2" href="6c2/project1/index.html">
+    <h2>Mystery Quest</h2>
+    <p>Class: 6C2</p>
+    <p>Author: Student name</p>
+  </a>
+
+</main>
+
+<script>
+function showClass(className) {
+  let cards = document.querySelectorAll(".card");
+
+  cards.forEach(card => {
+    if (className === "all" || card.classList.contains(className)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+</script>
+
+</body>
+</html>
