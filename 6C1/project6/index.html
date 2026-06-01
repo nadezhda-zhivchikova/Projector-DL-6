@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Яндере БЕЛЛОФФ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Яндере БЕЛЛОФФ</h1>
+
+<!-- SCENES -->
+
+<div id="start" class="scene">
+    <p>Тёмным вечером, ты лежала на кровати и переписывалась на сайте знакомвств. Тут к тебе приходит сообщение от некого БЕЛЛОФФА. Отетишь?</p>
+  <img src="https://i.pinimg.com/1200x/04/c6/05/04c60546d442fbcbdb6f8461206e6d77.jpg" width=200>
+  <br>
+    <button onclick="showScene('forest')">Ответить </button>
+  <button onclick="showScene('не forest')">Игнор Фуу</button>
+</div>
+
+<div id="forest" class="scene">
+    <p>БЕЛЛОФФ оказался очень разносторонним и приятным человеком. Спустя два часа общения, он позвал вас к себе.</p>
+   <img src="https://i.pinimg.com/1200x/8c/20/48/8c2048709791c8be7de1b3b363a7a3d3.jpg" width=200>
+  <br>
+    <button onclick="showScene('house')">Соглашусь. Он достаточно классный, мы найдём общий язык</button>
+    <button onclick="showScene('не forest')">Конечно нет! Делать мне больше нечего!</button>
+</div>
+
+<div id="house" class="scene">
+    <p>Придя на место назначения, ты видишьт совсем не уютный дом, а довольно пугающий подвал. По телу проходит крупная неприятная дрожь.</p>
+   <img src="https://i.pinimg.com/1200x/22/d7/5d/22d75d80781c45684d55c63f88d2b7b1.jpg" width=200>
+  <br>
+    <button onclick="showScene('дальше')">Пройти дальше. Может он просто не очень богат.</button>
+<button onclick="showScene('не lab')">Нет, на это я не подписывалась!</button>  
+</div>
+
+  <div id="не forest" class="scene">
+    <p>апатия поглотила тебя с головой. чтоб пройти квест про апатию, перейдите сюда https://codepen.io/editor/Cambridge-Student/pen/019df2bc-7a9c-7a55-b2bb-c70f2d969d0e</p>
+    <h2>💀 LOSER</h2>
+    <img src="https://i.pinimg.com/736x/87/bf/77/87bf77656ad1613cdf9022a3b03ff954.jpg" width=400>
+  <br>
+    <button onclick="restart()">Play again</button>
+</div>
+
+  <div id="дальше" class="scene">
+    <p>Внезапно ты полчувствовал тупую боль в затылке.</p>
+    <button onclick="showScene('подвал')">Дальше</button>
+    </div>
+ 
+<div id="подвал" class="scene">
+    <p>Ты открыл глаза. Всё двоилось. Пультсирующая боль всё ещё отдавала в висках. Вокруг тебя было тёмное и грязное помещение. Последнее что ты помнишь был высокий очкастый блондин. БЕЛЛОФФ.</p>
+  <img src="https://i.pinimg.com/736x/bd/3a/49/bd3a49614a809e9590b8f33fa928fd83.jpg" width=200>
+  <br>
+    <button onclick="showScene('домой')">Что это такое!? Я конечно убегу!</button>
+    <button onclick="showScene('Не подвал')">Останусь с любимым <3</button>
+</div>
+  
+   <div id="Не подвал" class="scene">
+    <p>вы с БЕЛЛОФФым вместе навсегда!! хорошо это или плохо, решать вам</p>
+    <img src="https://i.pinimg.com/736x/55/0c/d5/550cd51034ab4db9b09be8330e39a38e.jpg" width=400>
+  <br>  
+     
+    <h2>💀 Game Over</h2>
+      <img src="https://i.pinimg.com/736x/87/bf/77/87bf77656ad1613cdf9022a3b03ff954.jpg" width=400>
+  <br>
+    <button onclick="restart()">Play again</button>
+</div>
+
+<div id="домой" class="scene">
+    <p>ты осторожно осматриваешься вокруг.</p>
+    <button onclick="showScene('глазки')">0-0</button>
+</div>
+
+<div id="глазки" class="scene">
+    <p>впереди тебя не самая прочная решетка, а наверху люк, который, как тебе кажется, ведет на чердак. куда пойдешь?</p>
+    <button onclick="showScene('дверь')">попробую выйти через дверь в решетке! видимо, он ее не запер.</button>
+    <button onclick="showScene('чердак')">конечно чердак! в хоррор фильмах от маньяка сегда сбегают так.</button>
+</div>
+
+<div id="дверь" class="scene">
+    <p>аргх, ты слишком сильно шумел!! БЕЛЛОФФ безумно зол. удачи.</p>
+    <h2>💀 Game Over</h2>
+   <img src="https://i.pinimg.com/736x/87/bf/77/87bf77656ad1613cdf9022a3b03ff954.jpg" width=400>
+  <br>
+    <button onclick="restart()">Play again</button>
+</div>
+
+<div id="чердак" class="scene">
+  <p>умница!! тише воды, ниже Адель.. или как там говорят? куда свернешь?</p>
+  <img src="https://i.pinimg.com/1200x/26/95/ab/2695ab5fe6c532bfef04d148776bf33d.jpg" width=200>
+  <br>
+     <button onclick="showScene('право')">ну конечно направо!!</button>
+    <button onclick="showScene('лево')">говорят, в лабиринтах всегда нужно ходить по левой стенке.</button>
+</div>
+
+<div id="право" class="scene">
+  <p>да куда ты прешь?! споткнулась. эй, погоди, почему ты снова в подвале?".</p>
+   <h2>💀 Game Over</h2>
+   <img src="https://i.pinimg.com/736x/87/bf/77/87bf77656ad1613cdf9022a3b03ff954.jpg" width=400>
+  <br>
+    <button onclick=" showScene ('дальше')">снова в подвал</button>
+</div>
+
+  <div id="лево" class="scene">
+  <p>Ты долго шёл по тёмному коридору, слышились шаги сзади, НО КОГДА ТЫ ОБОРАЧИВАЛСЯ, НИКОГО НЕ БЫЛО. Было страшно. В конце коридора виднелись две двери.</p>
+     <img src="https://i.pinimg.com/1200x/67/56/b6/6756b6d4d134a51571489bde612bcfa8.jpg" width=400>
+  <br>
+     <button onclick="showScene('Валинтайна')">Светлая дверь. От неё веет светом!</button>
+    <button onclick="showScene('Фронтмэн')">Тёмная дверь наверно.ю Никогда нельзя верить свету</button>
+</div>
+
+  <div id="Валинтайна" class="scene">
+  <p>Ты зашёл в светлую дверь. Ты увидела человека, седящего к тебе спиной. Вокруг этого человека светили лампы. </p>
+   <img src="https://i.pinimg.com/736x/b9/41/b9/b941b9ad537ab3b4d1cb0cea8137f82e.jpg" width=400>
+  <br> 
+     <button onclick="showScene('добрик')">Поздоровуюсь. Может она мне поможет</button>
+    <button onclick="showScene('злобрик')">Быстро найду выход из комнаты. От неё веет не добрым.</button>
+</div>
+
+  <div id="злобрик" class="scene">
+  <p>О НЕТ!! ИЗ ЗА СВОЕГО ЗЛОБРИК ВАЙБА ВЫ УМЕРЛИ ОТ НЕВЕЖЛИВОСТИ!! УЖАСНАЯ КОНЦОВКА!!</p>
+   <h2>💀 Game Over</h2>
+     <img src="https://i.pinimg.com/736x/87/bf/77/87bf77656ad1613cdf9022a3b03ff954.jpg" width=400>
+  <br>
+    <button onclick="restart()">Play again</button>
+</div>
+
+  <div id="добрик" class="scene">
+  <p> Вы поздоровались. На вас обернулась злая Валинтайна. Вы умерли от злого взгляда Валинтайны. Грусня, но самая адекватная концовка. </p>
+    <h2>💀 Game Over</h2>
+     <img src="https://i.pinimg.com/736x/87/bf/77/87bf77656ad1613cdf9022a3b03ff954.jpg" width=400>
+  <br>
+    <button onclick="restart()">Play again</button>
+    
+     
+</div>
+  <div id="Фронтмэн" class="scene">
+  <p>В комнате очень неприятно пахло. Везде была разбросана жирная уродливая еда. В углу сидел маленький ребёнок, плача, а по середине комнаты, распластавшись, лежал очень большой и уродливый человек. Ты испугался, что предпримишь?  </p>
+     <img src="https://i.pinimg.com/736x/51/1b/87/511b875117eb12791009014174f3a5a6.jpg" width=400>
+  <br>
+     <button onclick="showScene('Янчик')">Подойду к маленькому ребёнку. </button>
+    <button onclick="showScene('ВАЛЯ')"> Сбегу! СКОРЕЕ!!</button>
+
+  <button onclick="showScene('ничегго')"> Ничего не собираюсь 
+  делать. Мне страшно.</button>
+</div>
+
+  <div id="Янчик" class="scene">
+  <p>Мальчик сразу отозвался, поворачиваясь на тебя красными от слёз глазами. "Я Янчик-Бананчик, я хочу тебе помочь. Возьми четыре шаурмы и покорми Валю. Это поможет тебе сбежать." </p>
+     <button onclick="showScene('Бред')">Что за ерунду несёт этот малой!? Я лучше сбегу!!</button>
+    <button onclick="showScene('Небред')">Ну, делать нечего.. Я лучше поступлю так, как он мне предложил</button>
+</div>
+
+  <div id="Бред" class="scene">
+  <p>Сам ты ерунда! Янчик ещё никого не подводил!!!</p>
+   <h2>💀 Game Over</h2>
+     <img src="https://i.pinimg.com/736x/87/bf/77/87bf77656ad1613cdf9022a3b03ff954.jpg" width=400>
+  <br>
+    <button onclick="restart()">Play again</button>
+</div>
+  
+    <div id="Небред" class="scene">
+  <p>Ты покормил Валю самолётиком-самолётиком-прямо-в-ротиком. Она взорвалась и взрыв открыл дверь. УРА. Ты сбежал из страшного подвала БЕЛЛОФФА. Вместе с тобой сбежал Янчик-бананчик, вы стали лучшими. А ещё Янчик-бананчик тебя избил</p>
+      <img src="https://i.pinimg.com/1200x/80/f7/32/80f732e386601b5ed2dc631597a20a64.jpg" width=400>
+  <br>
+   <h2> WIN </h2>
+    <button onclick="restart()">Play again</button>
+</div>
+  
+   <div id="ВАЛЯ" class="scene">
+  <p>Валя на тебя рыгнула и ты потерял сознание</p>
+   <h2>💀 Game Over</h2>
+      <img src="https://i.pinimg.com/736x/87/bf/77/87bf77656ad1613cdf9022a3b03ff954.jpg" width=400>
+  <br>
+    <button onclick="showScene('дальше')">снова в подвал</button>
+</div>
+
+     <div id="ничегго" class="scene">
+  <p>Ты умер от страха...</p>
+   <h2>💀 Game Over</h2>
+        <img src="https://i.pinimg.com/736x/87/bf/77/87bf77656ad1613cdf9022a3b03ff954.jpg" width=400>
+  <br>
+    <button onclick="restart()">Play again</button>
+</div>      
+  
+
+<!-- JS -->
+<script src="script.js"></script>
+
+</body>
+</html>

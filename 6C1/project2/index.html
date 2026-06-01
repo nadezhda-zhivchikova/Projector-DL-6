@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stranger Things Quest</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1> fighting apathy quest </h1>
+
+
+<!-- SCENES -->
+
+<div id="start" class="scene">
+  
+
+    <img src= "https://i.pinimg.com/736x/4d/40/c9/4d40c971d5f8b97eb0df45ab5e156259.jpg"width="300px">
+    <p>you’re lying in your bed with a bad mood and apathy.</p>
+    <button onclick="showScene('forest1')">Go outside</button>
+    <button onclick="showScene('forest2')">Stay in bed</button>
+</div>
+
+<div id="forest1" class="scene">
+  <img src= "https://t4.ftcdn.net/jpg/04/83/12/95/360_F_483129559_4f8XZjlTFDH0ZGJILIAjbeusD6De1IAl.jpg "width="300px">
+    <p>you dressed up and gathered your things. you went out of the house. where will you go?.</p>
+    <button onclick="showScene('house')">Go to the park</button>
+    <button onclick="showScene('path')">Go to the night club</button>
+</div>
+    
+  <div id="forest2" class="scene">
+    <img src= "https://i.pinimg.com/736x/1d/73/2e/1d732ebaab97f3b1dc98045680e1361b.jpg "width="300px">
+    <p>your mood became worse. your condition has become intolerable..</p> 
+     <button onclick="restart()">Play again</button>
+</div>  
+    
+
+<div id="house" class="scene">
+ <img src= "https://i.pinimg.com/1200x/bb/d0/81/bbd081bd46a8cab2be1f99ea58769f40.jpg "width="300px">
+
+<p>there were a cafe and swings in the park. where will you go?</p>
+    <button onclick="showScene('lab')">go to the swings </button>
+    <button onclick="showScene('portal')">go to the cafe </button>
+</div>
+
+<div id="path" class="scene">
+   <img src= "https://i.pinimg.com/1200x/01/ec/a4/01eca49d35c2d8add40226fedd82143d.jpg "width="300px">
+    <p>you overdrunk and felt awful. </p>
+  <button onclick="restart()">Play again</button>
+</div>
+
+<div id="lab" class="scene">
+   <img src= "https://i.pinimg.com/736x/c8/e8/e5/c8e8e5de60c975262279a068ec63b240.jpg "width="300px">
+   <h2>you heard sound of wind, thunder and water. rain started!</h2>
+    <p>you became soaked and got ill!</p>
+     <button onclick="restart()">Play again</button>
+</div>
+
+<div id="portal" class="scene">
+   <img src= "https://i.pinimg.com/736x/3d/5a/cc/3d5acce18161e2e6f85dace8ac41bebe.jpg "width="300px">
+    <p>good, you avoided the rain.
+what will you
+order?</p>
+    
+   <button onclick="showScene('food')">soup and salad </button>
+    <button onclick="showScene('food')">coffee and pie </button>
+  <button onclick="showScene('death')">nothing </button>
+</div>
+
+<div id="food" class="scene">
+    <p>good! you ate and went back home. what will you do?</p>
+    <img src= "https://i.pinimg.com/1200x/bc/58/13/bc581383d96342663523929fe978d85b.jpg"width="300px">
+  <br>
+   <button onclick="showScene('home')">take up your hobby. </button> 
+   <button onclick="showScene('over')">go back to bed. </button>
+  
+   </div>
+
+  <div id="home" class="scene">
+    <p>you felt better after that.. </p>
+    <h2>you have overcome apathy!</h2>
+<img src= "https://i.pinimg.com/1200x/9a/f4/b2/9af4b2ba47b6b4b0da3aa73ebc7f1720.jpg"width="200px">
+</div>
+  <div id="over" class="scene">
+    <p>you remained in that state. </p>
+    <h2>all efforts were in vain. you lost.</h2>
+    <img src= "https://i.pinimg.com/originals/c5/76/58/c57658b96a2f3f445d9872218ce44fae.gif"width="200px">
+    <br>
+  <button onclick="restart()">Play again</button>
+</div>
+
+<div id="death" class="scene">
+   <img src= "https://i.pinimg.com/736x/52/af/84/52af84fb0d250b4c7212d80534f872d2.jpg"width="200px">
+    <p>you didn’t eat anything for 4 days. you lost consciousnes.</p>
+    <h2>try again</h2>
+    <button onclick="restart()">Play again</button>
+</div>
+    <script src=script.js></script>
+</body>
+</html>

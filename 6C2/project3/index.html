@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Assassin's Creed: Roma Aeterna</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:Georgia,serif;}
+canvas{display:block;}
+#ui{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;}
+
+/* BARS */
+#bars{position:absolute;top:14px;left:14px;}
+.blabel{font-size:9px;letter-spacing:3px;color:#c8a84b;text-transform:uppercase;margin-bottom:2px;}
+.barbg{width:180px;height:8px;background:rgba(0,0,0,.8);border:1px solid rgba(200,168,75,.4);margin-bottom:7px;overflow:hidden;}
+.barfg{height:100%;}
+#hpfg{background:linear-gradient(90deg,#800,#d33,#f55);width:100%;}
+#stfg{background:linear-gradient(90deg,#040,#2a2,#4c4);width:100%;}
+#xpfg{background:linear-gradient(90deg,#006,#28f);width:0%;}
+
+/* TOP RIGHT */
+#topright{position:absolute;top:14px;right:14px;text-align:right;}
+#coindisplay{color:#f0d080;font-size:20px;font-weight:bold;text-shadow:0 0 12px #c8a84b;}
+#leveldisplay{color:#c8a84b;font-size:10px;letter-spacing:2px;margin-top:2px;}
+#potdisplay{color:#c8a84b;font-size:9px;letter-spacing:1px;margin-top:2px;}
+
+/* QUEST */
+#questbox{position:absolute;top:110px;left:14px;max-width:240px;}
+#qlabel{font-size:8px;letter-spacing:3px;color:#c8a84b;margin-bottom:3px;text-transform:uppercase;}
+#qtitle{color:#f0d080;font-size:12px;margin-bottom:2px;}
+#qdesc{color:#ccc0a8;font-size:11px;line-height:1.4;}
+#qobjs{margin-top:4px;}
+.qo{color:rgba(200,168,75,.6);font-size:10px;padding-left:10px;position:relative;margin-bottom:2px;}
+.qo::before{content:'◆';position:absolute;left:0;font-size:6px;top:2px;color:#c8a84b;}
+.qo.done{text-decoration:line-through;opacity:.3;}
+
+/* MINIMAP */
+#mmbox{position:absolute;bottom:14px;right:14px;width:160px;height:100px;border:1px solid rgba(200,168,75,.5);background:rgba(0,0,0,.8);}
+#mmbox canvas{width:100%;height:100%;}
+#mmlabel{position:absolute;top:-14px;right:0;font-size:8px;color:#c8a84b;letter-spacing:2px;}
+
+/* PROMPT */
+#prompt{position:absolute;bottom:130px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.8);border:1px solid rgba(200,168,75,.6);padding:6px 16px;font-size:10px;letter-spacing:2px;color:#c8a84b;white-space:nowrap;display:none;}
+
+/* NOTIF */
+#notif{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.92);border:1px solid #c8a84b;padding:16px 32px;text-align:center;display:none;max-width:440px;}
+#notif h2{color:#c8a84b;font-size:16px;letter-spacing:3px;margin-bottom:6px;}
+#notif p{color:#d4b896;font-size:13px;font-style:italic;}
+
+/* AREA NAME */
+#areaname{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);text-align:center;opacity:0;transition:opacity .5s;pointer-events:none;}
+#areaname h1{color:#c8a84b;font-size:28px;letter-spacing:5px;text-shadow:0 0 30px rgba(200,168,75,.9);}
+#areaname p{color:#d4b896;font-size:11px;letter-spacing:4px;margin-top:4px;}
+
+/* CONTROLS */
+#controls{position:absolute;bottom:14px;left:14px;font-size:8px;color:rgba(200,168,75,.4);letter-spacing:1px;line-height:1.9;}
+
+/* BOSS BAR */
+#bossbar{position:absolute;bottom:140px;left:50%;transform:translateX(-50%);width:380px;display:none;text-align:center;}
+#bossname{color:#cc2200;font-size:12px;letter-spacing:3px;text-shadow:0 0 15px #cc2200;margin-bottom:4px;}
+#bossbarbg{width:100%;height:12px;background:rgba(0,0,0,.8);border:1px solid #880000;overflow:hidden;}
+#bossbarfg{height:100%;background:linear-gradient(90deg,#400,#c20,#f40);width:100%;transition:width .2s;}
+#bossphase{font-size:8px;color:rgba(200,80,40,.7);letter-spacing:2px;margin-top:2px;}
+
+/* DIALOGUE */
+#dlgbox{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,rgba(0,0,0,.85),rgba(0,0,0,.98));border-top:1px solid rgba(200,168,75,.3);padding:16px 32px 20px;display:none;pointer-events:all;}
+#dlgname{font-size:9px;letter-spacing:3px;color:#c8a84b;margin-bottom:4px;text-transform:uppercase;}
+#dlgtext{color:#ede0c4;font-size:15px;line-height:1.5;margin-bottom:10px;}
+#dlgchoices{display:flex;flex-direction:column;gap:6px;}
+.dc{font-size:10px;letter-spacing:2px;padding:8px 16px;background:rgba(5,3,1,.8);border:1px solid rgba(200,168,75,.3);color:#d4b896;cursor:pointer;text-align:left;transition:all .15s;pointer-events:all;}
+.dc:hover{border-color:#c8a84b;background:rgba(200,168,75,.1);color:#f0d080;transform:translateX(3px);}
+.dc.danger{border-color:rgba(180,30,30,.35);color:#cc8888;}
+.dc.danger:hover{border-color:#cc2200;background:rgba(160,20,20,.12);color:#ff9999;}
+
+/* TITLE */
+#titlescreen{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 50% 40%,#1c1000,#030200);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;}
+.te{font-size:64px;animation:pulse 3s ease-in-out infinite;margin-bottom:8px;}
+@keyframes pulse{0%,100%{filter:drop-shadow(0 0 15px rgba(200,168,75,.5));}50%{filter:drop-shadow(0 0 50px rgba(200,168,75,1));transform:scale(1.05);}}
+.tt{font-size:clamp(18px,3.5vw,44px);color:#c8a84b;letter-spacing:6px;text-shadow:0 0 30px rgba(200,168,75,.7);margin-bottom:4px;}
+.ts{color:#d4b896;font-size:clamp(9px,1.2vw,13px);letter-spacing:10px;margin-bottom:44px;opacity:.8;}
+.tb{font-size:12px;letter-spacing:4px;padding:11px 44px;background:transparent;border:1px solid #c8a84b;color:#c8a84b;cursor:pointer;margin:5px;transition:all .25s;}
+.tb:hover{background:rgba(200,168,75,.1);box-shadow:0 0 20px rgba(200,168,75,.35);}
+.tb.big{font-size:13px;padding:13px 52px;border-color:#f0d080;}
+.tq{position:absolute;bottom:24px;color:rgba(200,168,75,.3);font-size:12px;font-style:italic;}
+
+/* END */
+#endscreen{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.93);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:100;pointer-events:all;}
+#endscreen h1{color:#c8a84b;font-size:36px;letter-spacing:4px;text-align:center;margin-bottom:10px;}
+#endscreen p{color:#d4b896;font-size:16px;font-style:italic;text-align:center;max-width:480px;margin-bottom:20px;}
+#endstats{color:rgba(200,168,75,.5);font-size:11px;letter-spacing:2px;margin-bottom:24px;}
+
+/* kill flash */
+#killflash{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:50;opacity:0;}
+</style>
+</head>
+<body>
+
+<canvas id="gc"></canvas>
+<canvas id="kc" style="position:fixed;top:0;left:0;display:none;z-index:60;pointer-events:none;"></canvas>
+<div id="killflash"></div>
+
+<div id="ui">
+  <div id="bars">
+    <div class="blabel">Health</div><div class="barbg"><div class="barfg" id="hpfg"></div></div>
+    <div class="blabel">Stamina</div><div class="barbg"><div class="barfg" id="stfg"></div></div>
+    <div class="blabel">Experience</div><div class="barbg"><div class="barfg" id="xpfg"></div></div>
+  </div>
+  <div id="topright">
+    <div style="font-size:9px;letter-spacing:3px;color:#c8a84b;">Florins</div>
+    <div id="coindisplay">0</div>
+    <div id="leveldisplay">Novice · Lv 1</div>
+    <div id="potdisplay">⚗ Potions: 3</div>
+  </div>
+  <div id="questbox">
+    <div id="qlabel">Active Quest</div>
+    <div id="qtitle">Explore freely</div>
+    <div id="qdesc">Rome is vast. Find allies, seek enemies, choose your path.</div>
+    <div id="qobjs"></div>
+  </div>
+  <div id="mmbox"><canvas id="mm" width="160" height="100"></canvas><div id="mmlabel">MAP</div></div>
+  <div id="prompt"></div>
+  <div id="notif"><h2 id="ntitle"></h2><p id="nbody"></p></div>
+  <div id="areaname"><h1 id="anTitle"></h1><p id="anSub"></p></div>
+  <div id="controls">WASD · Move &nbsp;|&nbsp; W · Jump &nbsp;|&nbsp; SPACE · Attack &nbsp;|&nbsp; Q · Dodge<br>E · Interact &nbsp;|&nbsp; R · Potion &nbsp;|&nbsp; V · Eagle Vision &nbsp;|&nbsp; F · Fullscreen</div>
+  <div id="bossbar">
+    <div id="bossname">CESARE BORGIA — THE WOLF OF ROME</div>
+    <div id="bossbarbg"><div id="bossbarfg"></div></div>
+    <div id="bossphase">Phase I</div>
+  </div>
+  <div id="dlgbox">
+    <div id="dlgname"></div>
+    <div id="dlgtext"></div>
+    <div id="dlgchoices"></div>
+  </div>
+</div>
+
+<div id="titlescreen">
+  <div class="te">🦅</div>
+  <div class="tt">ASSASSIN'S CREED</div>
+  <div class="ts">Roma Aeterna</div>
+  <button class="tb big" id="btn-start">Begin Memories</button>
+  <button class="tb" id="btn-fs">⛶ Fullscreen</button>
+  <div class="tq">"Nothing is true. Everything is permitted."</div>
+</div>
+
+<div id="endscreen">
+  <h1 id="endtitle"></h1>
+  <p id="endsub"></p>
+  <div id="endstats"></div>
+  <button class="tb" id="btn-again">Play Again</button>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════
+//  CANVAS SETUP
+// ════════════════════════════════════════════════════
+const gc = document.getElementById('gc');
+const c  = gc.getContext('2d');
+const kc = document.getElementById('kc');
+const kctx = kc.getContext('2d');
+const mmC = document.getElementById('mm');
+const mctx = mmC.getContext('2d');
+
+let W = 0, H = 0, GY = 0; // GY = ground screen Y, set on resize
+
+function resize() {
+  W = gc.width  = kc.width  = window.innerWidth;
+  H = gc.height = kc.height = window.innerHeight;
+  GY = Math.floor(H * 0.76); // ground sits at 76% screen height
+}
+resize();
+window.addEventListener('resize', () => { resize(); if (running) { P.y = GY; } });
+
+// ════════════════════════════════════════════════════
+//  WORLD
+// ════════════════════════════════════════════════════
+const WORLD_W = 8000;
+let camX = 0;
+
+// ════════════════════════════════════════════════════
+//  GAME FLAGS
+// ════════════════════════════════════════════════════
+let running = false;
+let gamePhase = 'title'; // title | playing | dead | won
+let eagleVision = false;
+let dlgOpen = false;
+let killAnimOn = false, killAnimF = 0;
+
+// ════════════════════════════════════════════════════
+//  PLAYER
+// ════════════════════════════════════════════════════
+const P = {
+  x:400, y:0,      // y set to GY on start
+  vx:0,  vy:0,
+  face:1,           // 1=right -1=left
+  onGround:true,
+  hp:100, maxHp:100,
+  st:100, maxSt:100,
+  xp:0,   lv:1,
+  coins:0,
+  potions:3,
+  attacking:false, atkF:0, atkCd:0,
+  dodging:false, dodgeF:0, dodgeDir:1,
+  invincible:0,
+  animF:0,
+  kills:0,
+};
+
+// ════════════════════════════════════════════════════
+//  INPUT
+// ════════════════════════════════════════════════════
+const K = {};
+document.addEventListener('keydown', e => {
+  K[e.code] = true;
+  if (e.code === 'KeyE')   tryInteract();
+  if (e.code === 'Space')  tryAttack();
+  if (e.code === 'KeyQ')   tryDodge();
+  if (e.code === 'KeyR')   drinkPotion();
+  if (e.code === 'KeyV')   toggleEagleVision();
+  if (e.code === 'KeyF' || e.code === 'F11') { toggleFS(); e.preventDefault(); }
+  if (['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
+});
+document.addEventListener('keyup', e => { K[e.code] = false; });
+
+// ════════════════════════════════════════════════════
+//  WORLD DATA
+// ════════════════════════════════════════════════════
+
+// Districts
+const DISTRICTS = [
+  { x:0,    w:900,  name:'Trastevere',           sub:'The Slums — Western Rome',       sky:['#0e0700','#2c1200','#663000'] },
+  { x:900,  w:900,  name:"Campo de' Fiori",       sub:'The Market District',            sky:['#160c00','#381800','#7a3800'] },
+  { x:1800, w:1000, name:'The Barracks',          sub:'Templar Military District',      sky:['#04000e','#0e0028','#200055'] },
+  { x:2800, w:800,  name:'Tiber Island',          sub:'Brotherhood Hideout',            sky:['#001016','#002844','#004870'] },
+  { x:3600, w:900,  name:'Santa Maria del Popolo',sub:'The Church Ruins',              sky:['#0e0008','#260018','#440030'] },
+  { x:4500, w:800,  name:'The Old Forum',         sub:'Ancient Roman Ruins',            sky:['#0a0800','#1e1a00','#443c00'] },
+  { x:5300, w:900,  name:'Pantheon District',     sub:'Heart of Rome',                 sky:['#080500','#201000','#482200'] },
+  { x:6200, w:900,  name:'The Aqueducts',         sub:'Outer Rome',                    sky:['#020010','#080024','#120048'] },
+  { x:7100, w:900,  name:"Castel Sant'Angelo",    sub:"The Wolf's Lair — Final Stage", sky:['#0c0000','#220000','#440000'] },
+];
+
+function getDistrict() {
+  return DISTRICTS.find(d => P.x >= d.x && P.x < d.x + d.w) || DISTRICTS[0];
+}
+
+// Buildings  [worldX, height, style]
+const BLDG_DATA = [
+  // Trastevere
+  [60,130,'slum'],[190,190,'slum'],[340,155,'slum'],[490,210,'slum'],[640,170,'slum'],[790,135,'slum'],
+  // Market
+  [920,155,'roman'],[1060,200,'roman'],[1210,170,'roman'],[1370,190,'roman'],[1530,155,'roman'],[1680,215,'roman'],
+  // Barracks
+  [1820,250,'fort'],[2010,280,'fort'],[2180,245,'fort'],[2360,265,'fort'],[2540,235,'fort'],[2680,270,'fort'],
+  // Tiber
+  [2820,175,'roman'],[2970,205,'roman'],[3110,185,'roman'],[3270,165,'roman'],[3440,195,'roman'],
+  // Church
+  [3620,280,'church'],[3840,195,'ruin'],[3990,175,'ruin'],[4140,205,'ruin'],[4310,165,'ruin'],
+  // Forum
+  [4520,215,'ancient'],[4690,195,'ancient'],[4855,235,'ancient'],[5015,185,'ancient'],[5175,205,'ancient'],
+  // Pantheon
+  [5320,195,'roman'],[5490,225,'roman'],[5660,185,'roman'],[5840,210,'roman'],[6010,195,'roman'],
+  // Aqueducts
+  [6220,260,'ancient'],[6410,240,'ancient'],[6600,215,'ancient'],[6780,235,'ancient'],[6960,255,'ancient'],
+  // Castle
+  [7120,340,'fort'],[7360,370,'fort'],[7570,315,'fort'],[7780,390,'fort'],[7940,330,'fort'],
+];
+
+// Platforms [x, yAboveGround, width]
+const PLAT_DATA = [
+  [100,130,90],[230,190,80],[380,155,85],[530,210,90],
+  [960,155,100],[1100,200,90],[1250,170,95],
+  [1850,250,110],[2050,280,100],[2220,245,105],[2400,265,100],
+  [2850,175,90],[3000,205,95],[3150,185,90],
+  [3660,280,120],[3870,195,95],[4020,175,90],
+  [4560,215,100],[4720,195,95],[4890,235,100],
+  [5360,195,95],[5520,225,100],[5690,185,90],
+  [6250,260,105],[6440,240,100],[6630,215,95],
+  [7150,340,120],[7390,370,115],[7600,315,110],
+  // Aqueduct bridges
+  [6200,200,180],[6450,200,180],[6700,200,180],[6950,200,180],
+];
+
+// NPCs [id, x, name, type, dialog]
+const NPC_DATA = [
+  { id:'leo',     x:1180, name:'Leonardo da Vinci',    type:'leo',      dlg:'leo'      },
+  { id:'machi',   x:3050, name:'Machiavelli',           type:'mentor',   dlg:'machi'    },
+  { id:'fence',   x:720,  name:'The Fence',             type:'fence',    dlg:'fence'    },
+  { id:'scholar', x:3790, name:'Church Scholar',        type:'scholar',  dlg:'scholar'  },
+  { id:'merchant',x:4710, name:'Old Merchant',          type:'merchant', dlg:'merchant' },
+  { id:'spy',     x:5640, name:'Venetian Spy',          type:'spy',      dlg:'spy'      },
+  { id:'thief',   x:6490, name:'Thieves Guild Master',  type:'thief',    dlg:'thief'    },
+  { id:'p1',      x:2020, name:'Imprisoned Recruit',    type:'prisoner', dlg:'prisoner' },
+  { id:'p2',      x:2280, name:'Imprisoned Recruit',    type:'prisoner', dlg:'prisoner' },
+  { id:'p3',      x:2560, name:'Imprisoned Recruit',    type:'prisoner', dlg:'prisoner' },
+];
+
+// Guards [x, patrolRange, type, startAlert]
+const GUARD_DATA = [
+  // Trastevere
+  [670,180,'guard',false],[870,160,'guard',false],[160,140,'guard',false],
+  // Market
+  [990,180,'guard',false],[1310,180,'guard',false],[1610,160,'guard',false],
+  // Barracks — tough
+  [1880,150,'elite',true],[2070,140,'elite',true],[2240,130,'elite',true],
+  [2430,150,'elite',true],[2610,140,'elite',true],[2700,130,'elite',true],
+  [2220,100,'captain',true], // Vieri
+  // Tiber
+  [2910,180,'guard',false],[3170,170,'guard',false],[3380,175,'guard',false],
+  // Church
+  [3710,160,'guard',false],[3960,170,'guard',false],[4220,180,'elite',false],
+  // Forum
+  [4570,175,'guard',false],[4820,180,'guard',false],[5080,160,'elite',true],
+  // Pantheon
+  [5410,170,'guard',false],[5680,165,'elite',true],[5970,180,'elite',true],
+  // Aqueducts
+  [6300,150,'elite',true],[6520,145,'elite',true],[6740,155,'elite',true],[6980,150,'elite',true],
+  // Castle — hardest
+  [7180,120,'elite',true],[7380,115,'elite',true],[7590,120,'elite',true],
+  [7770,115,'elite',true],[7900,110,'elite',true],
+];
+
+// Loot [id, x, type, label, questId]
+const LOOT_DATA = [
+  { id:'taxchest', x:1440, type:'chest',  label:'Tax Chest',          quest:'rob_chest'  },
+  { id:'codex',    x:3910, type:'codex',  label:'Codex Page',         quest:'codex'      },
+  { id:'caesar',   x:4790, type:'chest',  label:"Caesar's Treasury",  quest:'forum'      },
+  { id:'parchment',x:5650, type:'scroll', label:'Templar Document',   quest:'pantheon'   },
+];
+
+// ════════════════════════════════════════════════════
+//  LIVE ENTITIES (built at start)
+// ════════════════════════════════════════════════════
+let buildings=[], platforms=[], npcs=[], guards=[], loot=[], coins=[], healthPacks=[];
+let particles=[], projectiles=[];
+let boss = null, bossActive = false;
+let freedRecruits = 0;
+let quests = {};
+let activeQuest = null;
+let flags = {};
+let kills = 0;
+
+function buildWorld() {
+  buildings = BLDG_DATA.map(([wx,h,style],i) => ({
+    x:wx, h, style,
+    w: 95 + (i*19)%55,
+    get y(){ return GY - this.h; }
+  }));
+
+  platforms = PLAT_DATA.map(([wx,yAbove,pw]) => ({
+    x: wx, w: pw, h: 8,
+    get y(){ return GY - yAbove; }
+  }));
+
+  npcs = NPC_DATA.map(n => ({ ...n, freed: false }));
+
+  guards = GUARD_DATA.map(([x,range,type,alert],i) => ({
+    id:i, x, range,
+    type, alerted: alert, alertTimer: 0,
+    face: 1, origin: x,
+    hp: type==='captain'?200 : type==='elite'?70 : 35,
+    maxHp: type==='captain'?200 : type==='elite'?70 : 35,
+    atkCd: 0, dead: false, deathF: 0,
+    isVieri: (i === 12), // index of captain Vieri in GUARD_DATA
+  }));
+
+  loot = LOOT_DATA.map(l => ({ ...l, collected: false }));
+
+  // scatter coins
+  coins = [];
+  for (let i = 0; i < 100; i++) {
+    coins.push({ x: 100 + Math.random()*(WORLD_W-200), yOff: 10+Math.random()*15, collected:false, bob: Math.random()*Math.PI*2 });
+  }
+  // health packs
+  healthPacks = [600,1500,2700,3400,4200,5100,5900,6700,7500].map(x => ({
+    x, collected: false, bob: Math.random()*Math.PI*2
+  }));
+
+  // Boss
+  boss = { x:7800, hp:800, maxHp:800, phase:1, timer:0, atkCd:0, invF:0, face:-1, slamF:0, dead:false };
+
+  particles = []; projectiles = [];
+  freedRecruits = 0; quests = {}; activeQuest = null; flags = {}; kills = 0;
+}
+
+// ════════════════════════════════════════════════════
+//  QUESTS
+// ════════════════════════════════════════════════════
+const QUEST_INFO = {
+  rob_chest: { title:"The Tax Collector", objs:["Steal the tax chest","Return to Leo"] },
+  free_recruits:{ title:"Blades Unsheathed", objs:["Free 3 imprisoned recruits (0/3)"] },
+  vieri:      { title:"Blood Debt",       objs:["Kill Captain Vieri"] },
+  codex:      { title:"The Ancient Words",objs:["Find the codex page"] },
+  forum:      { title:"Treasure of Caesar",objs:["Dig up Caesar's chest"] },
+  pantheon:   { title:"Secrets of the Pantheon",objs:["Find the Templar document"] },
+  boss:       { title:"The Wolf of Rome", objs:["Defeat Cesare Borgia"] },
+};
+
+function acceptQuest(id) {
+  if (quests[id]) return;
+  quests[id] = { done:false, prog:0 };
+  activeQuest = id;
+  renderQuestHUD();
+  const qi = QUEST_INFO[id];
+  showNotif(qi.title, 'New quest accepted.', 'gold');
+}
+function completeQuest(id) {
+  if (!quests[id] || quests[id].done) return;
+  quests[id].done = true;
+  gainXP(150); gainCoins(80);
+  showNotif('Quest Complete', QUEST_INFO[id].title, 'gold');
+  if (id === 'boss') triggerWin();
+}
+function renderQuestHUD() {
+  const id = activeQuest;
+  if (!id || !QUEST_INFO[id]) {
+    el('qtitle').textContent = 'Explore freely';
+    el('qdesc').textContent = 'Rome is vast. Find allies, seek enemies, choose your path.';
+    el('qobjs').innerHTML = '';
+    return;
+  }
+  const qi = QUEST_INFO[id], q = quests[id];
+  el('qtitle').textContent = qi.title;
+  el('qdesc').textContent = '';
+  const div = el('qobjs');
+  div.innerHTML = '';
+  qi.objs.forEach((o,i) => {
+    const d = document.createElement('div');
+    d.className = 'qo' + (q.prog > i ? ' done' : '');
+    // update recruit count live
+    if (id === 'free_recruits' && i === 0) {
+      d.textContent = `Free 3 imprisoned recruits (${freedRecruits}/3)`;
+    } else {
+      d.textContent = o;
+    }
+    div.appendChild(d);
+  });
+}
+
+// ════════════════════════════════════════════════════
+//  DIALOGUES
+// ════════════════════════════════════════════════════
+const DIALOGUES = {
+  leo: {
+    spk:'Leonardo da Vinci',
+    txt:"Ezio! Rome grows dangerous. The Templars installed a tax collector at the fountain — he bleeds the people dry. I can help rebuild the Brotherhood, but we need coin. That chest is yours to take — if you choose. Machiavelli is also waiting at Tiber Island.",
+    choices:[
+      { t:"Accept — rob the tax chest",        fn:()=>{ acceptQuest('rob_chest'); closeDlg(); }},
+      { t:"Tell me more about the Brotherhood", fn:()=>{ openDlgRaw('leo2'); }},
+      { t:"Ignore it. I'll find my own way.",   fn:()=>{ closeDlg(); }},
+    ]
+  },
+  leo2: {
+    spk:'Leonardo da Vinci',
+    txt:"Cesare Borgia — the Wolf of Rome — commands the Templars from Castel Sant'Angelo, far to the east. Recruits have been captured at the Barracks. Free them if you wish. Or ignore all of it. Rome doesn't force your hand, Ezio. Only your conscience does.",
+    choices:[
+      { t:"Free the recruits",              fn:()=>{ acceptQuest('free_recruits'); closeDlg(); }},
+      { t:"Hunt Captain Vieri instead",     fn:()=>{ acceptQuest('vieri'); closeDlg(); }},
+      { t:"I work alone. Thank you.",       fn:()=>{ closeDlg(); }},
+    ]
+  },
+  machi: {
+    spk:'Niccolò Machiavelli',
+    txt:"Finally. Three recruits rot in Templar cages at the Barracks. Captain Vieri has ordered their execution. I won't pretend you're obligated — you're a free blade, Ezio. But every choice has a price.",
+    choices:[
+      { t:"[Accept] Free the recruits",     fn:()=>{ acceptQuest('free_recruits'); closeDlg(); }},
+      { t:"[Accept] Kill Captain Vieri",    fn:()=>{ acceptQuest('vieri'); closeDlg(); }},
+      { t:"Tell me about Cesare Borgia",    fn:()=>{ openDlgRaw('machi2'); }},
+      { t:"Not today.",                     fn:()=>{ closeDlg(); }},
+    ]
+  },
+  machi2: {
+    spk:'Niccolò Machiavelli',
+    txt:"Cesare Borgia holds Castel Sant'Angelo — far east. Face him and Rome breathes free. Or don't. History finds its own assassins eventually.",
+    choices:[
+      { t:"I'll go when I'm ready.",        fn:()=>{ closeDlg(); }},
+      { t:"Accept: face Cesare",            fn:()=>{ acceptQuest('boss'); closeDlg(); }},
+    ]
+  },
+  fence: {
+    spk:'The Fence',
+    txt:"Psst — Assassin. I trade in secrets and stolen goods. Pay me 40 florins and I'll tell you where Cesare's defenses are weakest. Worth every coin.",
+    choices:[
+      { t:"Pay 40 florins",                 fn:()=>{ if(P.coins>=40){P.coins-=40;updateHUD();openDlgRaw('fence2');}else{showNotif('Not enough','Need 40 florins.','red');closeDlg();}}},
+      { t:"No thanks.",                     fn:()=>{ closeDlg(); }},
+    ]
+  },
+  fence2: {
+    spk:'The Fence',
+    txt:"Smart. The aqueduct route bypasses the main castle gates. Cesare always fights alone — too proud for bodyguards. Also: there's a codex page hidden in the church ruins to the east.",
+    choices:[
+      { t:"Useful. Thank you.",             fn:()=>{ gainXP(40); closeDlg(); }},
+    ]
+  },
+  scholar: {
+    spk:'Church Scholar',
+    txt:"The Templars ransacked our church and left in a hurry. They didn't find the codex page I hid among the eastern ruins. Please — retrieve it before they return. Or leave it if you prefer.",
+    choices:[
+      { t:"[Accept] I'll retrieve it",      fn:()=>{ acceptQuest('codex'); closeDlg(); }},
+      { t:"Maybe later.",                   fn:()=>{ closeDlg(); }},
+      { t:"Not my concern.",                fn:()=>{ closeDlg(); }},
+    ]
+  },
+  merchant: {
+    spk:'Old Merchant',
+    txt:"Julius Caesar's treasury — buried right here in the Forum. I have the map but I'm too old to dig. Take it, take the treasure, take nothing. I don't care anymore.",
+    choices:[
+      { t:"[Accept] Show me where it is",   fn:()=>{ acceptQuest('forum'); closeDlg(); }},
+      { t:"I don't need old treasure.",     fn:()=>{ closeDlg(); }},
+    ]
+  },
+  spy: {
+    spk:'Venetian Spy',
+    txt:"The Templars hid something inside the Pantheon — a document that could bring down half the Roman nobility. Could be worth something. Could be dangerous.",
+    choices:[
+      { t:"[Accept] I'll investigate",      fn:()=>{ acceptQuest('pantheon'); closeDlg(); }},
+      { t:"Keep your secrets.",             fn:()=>{ closeDlg(); }},
+    ]
+  },
+  thief: {
+    spk:'Thieves Guild Master',
+    txt:"The Aqueducts are crawling with elite Templars. My boys can create a diversion for 60 florins — saves you a brutal fight. Or go through them all. Your call.",
+    choices:[
+      { t:"Pay 60 florins — buy diversion", fn:()=>{
+          if(P.coins>=60){P.coins-=60;updateHUD();
+            guards.filter(g=>g.x>6200&&g.x<7100).forEach(g=>{g.alerted=false;g.alertTimer=0;});
+            showNotif('Diversion','The thieves scatter the guards.','gold'); closeDlg();
+          } else { showNotif('Not enough','Need 60 florins.','red'); closeDlg(); }
+        }},
+      { t:"I'll fight through alone.",      fn:()=>{ closeDlg(); }},
+    ]
+  },
+  prisoner: {
+    spk:'Imprisoned Recruit',
+    txt:"Assassin! They'll execute us at dawn. Free us and we pledge our blades to the Brotherhood.",
+    choices:[
+      { t:"[Free them] Come with me.",      fn:(npc)=>{ freeRecruit(npc); closeDlg(); }},
+      { t:"I'll come back for you.",        fn:()=>{ closeDlg(); }},
+      { t:"Not my problem.",                fn:()=>{ closeDlg(); }},
+    ]
+  },
+};
+
+let currentDlgNPC = null;
+function openDlg(npc) {
+  currentDlgNPC = npc;
+  openDlgRaw(npc.dlg);
+}
+function openDlgRaw(key) {
+  const d = DIALOGUES[key]; if (!d) return;
+  dlgOpen = true;
+  el('dlgbox').style.display = 'block';
+  el('dlgname').textContent = d.spk;
+  el('dlgtext').textContent = d.txt;
+  const dc = el('dlgchoices'); dc.innerHTML = '';
+  d.choices.forEach(ch => {
+    const b = document.createElement('button');
+    b.className = 'dc';
+    b.textContent = ch.t;
+    b.onclick = () => ch.fn(currentDlgNPC);
+    dc.appendChild(b);
+  });
+}
+function closeDlg() {
+  dlgOpen = false;
+  el('dlgbox').style.display = 'none';
+}
+function freeRecruit(npc) {
+  if (!npc) return;
+  npc.freed = true;
+  freedRecruits++;
+  gainXP(50);
+  spawnParticles(npc.x, GY-40, 'gold', 8);
+  if (quests['free_recruits']) quests['free_recruits'].prog = freedRecruits;
+  renderQuestHUD();
+  if (freedRecruits >= 3) completeQuest('free_recruits');
+}
+
+// ════════════════════════════════════════════════════
+//  INTERACTION
+// ════════════════════════════════════════════════════
+function tryInteract() {
+  if (dlgOpen) { closeDlg(); return; }
+  if (gamePhase !== 'playing') return;
+  for (const n of npcs) {
+    if (!n.freed && Math.abs(n.x - P.x) < 80) { openDlg(n); return; }
+  }
+  for (const l of loot) {
+    if (!l.collected && Math.abs(l.x - P.x) < 75) { collectLoot(l); return; }
+  }
+}
+function collectLoot(l) {
+  l.collected = true;
+  spawnParticles(l.x, GY-20, 'gold', 16);
+  if (l.type === 'chest') gainCoins(100 + Math.floor(Math.random()*80));
+  if (l.type === 'codex' || l.type === 'scroll') gainXP(90);
+  showNotif('Found: ' + l.label, '', 'gold');
+  if (l.quest) completeQuest(l.quest);
+}
+
+// ════════════════════════════════════════════════════
+//  COMBAT ACTIONS
+// ════════════════════════════════════════════════════
+function tryAttack() {
+  if (dlgOpen || P.attacking || P.atkCd > 0 || gamePhase !== 'playing') return;
+  P.attacking = true; P.atkF = 0; P.atkCd = 22;
+  P.st = Math.max(0, P.st - 10);
+}
+function tryDodge() {
+  if (P.dodging || P.st < 18 || gamePhase !== 'playing') return;
+  P.dodging = true; P.dodgeF = 0; P.dodgeDir = P.face;
+  P.invincible = 30; P.st = Math.max(0, P.st - 18);
+}
+function drinkPotion() {
+  if (P.potions <= 0 || P.hp >= P.maxHp || gamePhase !== 'playing') return;
+  P.potions--; P.hp = Math.min(P.maxHp, P.hp + 55);
+  showNotif('Potion', 'Health restored. Potions left: ' + P.potions, 'gold');
+  updateHUD();
+}
+
+function processAttackHit() {
+  // only on hitframe 8
+  if (!P.attacking || P.atkF !== 8) return;
+  const range = 82;
+  guards.forEach(g => {
+    if (g.dead) return;
+    const dx = g.x - P.x;
+    if (Math.abs(dx) < range && Math.sign(dx) === P.face) {
+      const dmg = 12 + P.lv * 8;
+      g.hp -= dmg;
+      spawnParticles(g.x, GY-35, 'blood', 10);
+      g.alerted = true; g.alertTimer = 400;
+      if (g.hp <= 0) killGuard(g);
+    }
+  });
+  if (bossActive && boss && !boss.dead && boss.invF <= 0) {
+    const dx = boss.x - P.x;
+    if (Math.abs(dx) < range + 30 && Math.sign(dx) === P.face) {
+      const dmg = 10 + P.lv * 7;
+      boss.hp = Math.max(0, boss.hp - dmg);
+      boss.invF = 16;
+      spawnParticles(boss.x, GY-60, 'blood', 14);
+      updateBossBar();
+      if (boss.hp <= 0) { killBoss(); }
+      else if (boss.hp < boss.maxHp * 0.5 && boss.phase === 1) {
+        boss.phase = 2;
+        el('bossphase').textContent = 'Phase II — Enraged';
+        showNotif('Phase II', 'The Wolf is enraged!', 'red');
+      } else if (boss.hp < boss.maxHp * 0.25 && boss.phase === 2) {
+        boss.phase = 3;
+        el('bossphase').textContent = 'Phase III — Last Stand';
+        showNotif('Final Phase', 'Now it ends.', 'red');
+      }
+    }
+  }
+}
+
+function killGuard(g) {
+  g.dead = true; g.deathF = 0;
+  killAnimOn = true; killAnimF = 0;
+  gainXP(28); gainCoins(12); kills++;
+  spawnParticles(g.x, GY-30, 'blood', 22);
+  if (g.isVieri) { flags.vieriDead = true; completeQuest('vieri'); showNotif("Captain Vieri is Dead","Justice. The Brotherhood is safer.",'gold'); }
+  showKillFeed(g.type === 'captain' ? 'Captain Vieri — Assassinated' : 'Guard Eliminated');
+}
+
+function killBoss() {
+  boss.dead = true; killAnimOn = true; killAnimF = 0;
+  spawnParticles(boss.x, GY-60, 'blood', 35);
+  spawnParticles(boss.x, GY-60, 'gold', 25);
+  showKillFeed('CESARE BORGIA — SLAIN');
+  setTimeout(() => completeQuest('boss'), 3000);
+}
+
+// ════════════════════════════════════════════════════
+//  BOSS AI
+// ════════════════════════════════════════════════════
+function updateBossAI() {
+  if (!bossActive || !boss || boss.dead) return;
+  const b = boss;
+  b.timer++;
+  if (b.invF > 0) b.invF--;
+  if (b.atkCd > 0) b.atkCd--;
+  if (b.slamF > 0) b.slamF--;
+
+  const dx = P.x - b.x, dist = Math.abs(dx);
+  b.face = Math.sign(dx) || b.face;
+
+  if (b.phase === 1) {
+    if (dist > 100) b.x += Math.sign(dx) * 2;
+    if (dist < 110 && b.atkCd <= 0) { hurtPlayer(18); b.atkCd = 75; }
+    if (b.timer % 200 === 0 && dist > 80) { b.x += Math.sign(dx) * 100; spawnParticles(b.x, GY-20, 'shockwave', 6); }
+  }
+  if (b.phase >= 2) {
+    if (dist > 80) b.x += Math.sign(dx) * 3;
+    if (dist < 100 && b.atkCd <= 0) { hurtPlayer(24); b.atkCd = 55; }
+    if (b.timer % 130 === 0) throwKnife(Math.sign(dx)||1);
+    if (b.timer % 260 === 0) { b.slamF = 38; slamWave(); }
+  }
+  if (b.phase === 3) {
+    if (dist > 70) b.x += Math.sign(dx) * 4.2;
+    if (dist < 90 && b.atkCd <= 0) { hurtPlayer(30); b.atkCd = 40; }
+    if (b.timer % 90 === 0) throwKnife(Math.sign(dx)||1);
+    if (b.timer % 70 === 0) throwKnife(-Math.sign(dx)||-1);
+  }
+  b.x = Math.max(7100, Math.min(WORLD_W - 80, b.x));
+}
+function throwKnife(dir) {
+  if (!boss) return;
+  projectiles.push({ x:boss.x, y:GY-60, vx:dir*7, vy:-2.5, life:80, type:'knife' });
+}
+function slamWave() {
+  if (!boss) return;
+  [-1,1].forEach(d => projectiles.push({ x:boss.x, y:GY-10, vx:d*5.5, vy:0, life:60, type:'wave' }));
+}
+
+// ════════════════════════════════════════════════════
+//  GUARD AI
+// ════════════════════════════════════════════════════
+function updateGuardAI() {
+  guards.forEach(g => {
+    if (g.dead) { if (g.deathF < 32) g.deathF++; return; }
+    if (g.atkCd > 0) g.atkCd--;
+
+    const dx = P.x - g.x, dist = Math.abs(dx);
+    const sight = g.type === 'captain' ? 280 : g.type === 'elite' ? 220 : 160;
+
+    if (!g.alerted && dist < sight) { g.alerted = true; g.alertTimer = 360; }
+    if (g.alerted && g.alertTimer > 0) g.alertTimer--;
+    else if (g.alerted && g.alertTimer <= 0) g.alerted = false;
+
+    if (g.alerted) {
+      if (dist > 52) { g.x += Math.sign(dx) * (g.type==='captain'?2.4:g.type==='elite'?1.9:1.4); g.face = Math.sign(dx); }
+      if (dist < 62 && g.atkCd <= 0 && P.invincible <= 0) {
+        const dmg = g.type==='captain'?22 : g.type==='elite'?13 : 8;
+        hurtPlayer(dmg); g.atkCd = 65;
+      }
+    } else {
+      if (g.x > g.origin + g.range/2) g.face = -1;
+      if (g.x < g.origin - g.range/2) g.face =  1;
+      g.x += g.face * 0.65;
+    }
+  });
+}
+
+function hurtPlayer(dmg) {
+  if (P.invincible > 0) return;
+  P.hp = Math.max(0, P.hp - dmg);
+  P.invincible = 42;
+  spawnParticles(P.x, GY-40, 'blood', 6);
+  flashRed();
+  updateHUD();
+  if (P.hp <= 0) triggerDeath();
+}
+
+// ════════════════════════════════════════════════════
+//  PLAYER PHYSICS
+// ════════════════════════════════════════════════════
+function updatePlayer() {
+  if (dlgOpen || killAnimOn || gamePhase !== 'playing') return;
+
+  const running = K['ShiftLeft'] || K['ShiftRight'];
+  const spd = running ? 4.0 : 2.2;
+  let moving = false;
+
+  if (!P.attacking && !P.dodging) {
+    if (K['ArrowLeft'] || K['KeyA'])  { P.vx = -spd; P.face = -1; moving = true; }
+    else if (K['ArrowRight'] || K['KeyD']) { P.vx = spd; P.face = 1; moving = true; }
+    else P.vx = 0;
+  }
+
+  if (P.dodging) {
+    P.dodgeF++;
+    P.vx = P.dodgeDir * 9;
+    if (P.dodgeF > 18) { P.dodging = false; P.vx = 0; }
+  }
+
+  if ((K['ArrowUp'] || K['KeyW']) && P.onGround && !P.attacking) {
+    P.vy = -14; P.onGround = false;
+  }
+
+  P.vy += 0.55;
+  P.x += P.vx;
+  P.y += P.vy;
+  P.x = Math.max(30, Math.min(WORLD_W - 30, P.x));
+
+  // ground
+  if (P.y >= GY) { P.y = GY; P.vy = 0; P.onGround = true; }
+
+  // platforms
+  platforms.forEach(pl => {
+    if (P.x > pl.x && P.x < pl.x + pl.w && P.vy > 0) {
+      const platScreenY = pl.y; // pl.y is already GY - yAbove
+      if (P.y >= platScreenY && P.y <= platScreenY + 20) {
+        P.y = platScreenY; P.vy = 0; P.onGround = true;
+      }
+    }
+  });
+
+  // attack
+  if (P.attacking) {
+    P.atkF++;
+    processAttackHit();
+    if (P.atkF > 18) { P.attacking = false; P.atkF = 0; }
+  }
+  if (P.atkCd > 0) P.atkCd--;
+  if (P.invincible > 0) P.invincible--;
+
+  // stamina
+  if (!running) P.st = Math.min(P.maxSt, P.st + 0.3);
+  else if (moving) P.st = Math.max(0, P.st - 0.18);
+
+  if (moving || !P.onGround) P.animF++;
+
+  // collect coins
+  coins.forEach(cn => {
+    if (cn.collected) return;
+    const cy = GY - cn.yOff;
+    if (Math.abs(cn.x - P.x) < 24 && Math.abs(cy - P.y) < 30) {
+      cn.collected = true; gainCoins(2 + Math.floor(Math.random()*4));
+      spawnParticles(cn.x, cy, 'gold', 4);
+    }
+  });
+
+  // collect health packs
+  healthPacks.forEach(hp => {
+    if (hp.collected) return;
+    if (Math.abs(hp.x - P.x) < 24 && P.y >= GY - 25) {
+      hp.collected = true;
+      P.hp = Math.min(P.maxHp, P.hp + 35); updateHUD();
+      spawnParticles(hp.x, GY-20, 'heal', 8);
+      showNotif('Health Restored', '+35 HP', 'gold');
+    }
+  });
+
+  // projectiles
+  for (let i = projectiles.length-1; i >= 0; i--) {
+    const pr = projectiles[i];
+    pr.x += pr.vx; pr.y += pr.vy;
+    if (pr.type === 'knife') pr.vy += 0.3;
+    pr.life--;
+    if (pr.life <= 0 || pr.y > GY) { projectiles.splice(i,1); continue; }
+    if (Math.abs(pr.x - P.x) < 26 && Math.abs(pr.y - (P.y - 40)) < 38 && P.invincible <= 0) {
+      hurtPlayer(pr.type === 'wave' ? 18 : 14);
+      projectiles.splice(i, 1);
+    }
+  }
+
+  // boss zone
+  if (P.x > 7100 && !bossActive && boss && !boss.dead) {
+    bossActive = true;
+    el('bossbar').style.display = 'block';
+    acceptQuest('boss');
+    showNotif('The Wolf of Rome', 'Cesare Borgia awaits. Prepare yourself.', 'red');
+    flashRed();
+  }
+
+  // district check
+  const d = getDistrict();
+  const curName = d ? d.name : '';
+  if (curName !== lastDistrict) { lastDistrict = curName; if (d) showAreaName(d.name, d.sub); }
+}
+
+let lastDistrict = '';
+
+// ════════════════════════════════════════════════════
+//  CAMERA
+// ════════════════════════════════════════════════════
+function updateCamera() {
+  const target = P.x - W/2;
+  camX += (target - camX) * 0.06;
+  camX = Math.max(0, Math.min(WORLD_W - W, camX));
+}
+
+// ════════════════════════════════════════════════════
+//  PARTICLES
+// ════════════════════════════════════════════════════
+function spawnParticles(wx, wy, type, n) {
+  for (let i = 0; i < n; i++) {
+    const a = Math.random()*Math.PI*2, sp = 1+Math.random()*4;
+    let col;
+    if      (type==='blood')     col = `${120+Math.floor(Math.random()*40)},0,0`;
+    else if (type==='gold')      col = `200,165,${50+Math.floor(Math.random()*50)}`;
+    else if (type==='shockwave') col = '255,175,25';
+    else if (type==='heal')      col = '80,220,80';
+    else                         col = '200,200,200';
+    particles.push({ wx, wy, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp-1.5, life:1, sz:2+Math.random()*5, col });
+  }
+}
+
+// ════════════════════════════════════════════════════
+//  DRAWING HELPERS
+// ════════════════════════════════════════════════════
+function sx(wx) { return wx - camX; } // world x → screen x
+
+// ════════════════════════════════════════════════════
+//  DRAW BACKGROUND
+// ════════════════════════════════════════════════════
+let tick = 0;
+function drawBackground() {
+  const d = getDistrict();
+  const sky = d ? d.sky : DISTRICTS[0].sky;
+  const g = c.createLinearGradient(0,0,0,GY);
+  g.addColorStop(0, sky[0]); g.addColorStop(0.45, sky[1]); g.addColorStop(1, sky[2]);
+  c.fillStyle = g; c.fillRect(0,0,W,H);
+
+  // stars
+  for (let i = 0; i < 110; i++) {
+    const starX = ((i*137.5 + camX*0.006) % W + W) % W;
+    const starY = (i*71.3) % (GY*0.55);
+    const fl = 0.3 + 0.7 * Math.sin(tick*0.04 + i*1.4);
+    c.beginPath(); c.arc(starX, starY, 0.7, 0, Math.PI*2);
+    c.fillStyle = `rgba(255,255,215,${fl*0.7})`; c.fill();
+  }
+
+  // moon
+  const moonX = ((W*0.7 - camX*0.01) % W + W) % W;
+  const moonY = GY * 0.12;
+  const mr = c.createRadialGradient(moonX,moonY,0,moonX,moonY,40);
+  mr.addColorStop(0,'rgba(215,205,170,.85)'); mr.addColorStop(.55,'rgba(170,150,110,.3)'); mr.addColorStop(1,'transparent');
+  c.fillStyle = mr; c.beginPath(); c.arc(moonX,moonY,40,0,Math.PI*2); c.fill();
+
+  // distant silhouette (parallax)
+  drawSilhouettes(camX * 0.25, GY);
+}
+
+function drawSilhouettes(offset, groundY) {
+  c.fillStyle = 'rgba(8,5,2,0.5)';
+  const shapes = [
+    [0,70,130],[80,55,160],[150,80,115],[245,60,145],[320,90,110],[430,65,148],[510,78,128],[615,55,158],[700,70,122],[795,88,150],[900,65,132],[980,78,118]
+  ];
+  shapes.forEach(([bx,bw,bh]) => {
+    const screenX = ((bx - offset % W) % W + W) % W;
+    c.fillRect(screenX, groundY - bh, bw, bh);
+    if (bw > 75) { c.beginPath(); c.arc(screenX+bw/2, groundY-bh, bw*0.3, Math.PI,0); c.fill(); }
+  });
+}
+
+// ════════════════════════════════════════════════════
+//  DRAW GROUND
+// ════════════════════════════════════════════════════
+function drawGround() {
+  // fill below ground
+  const gg = c.createLinearGradient(0,GY,0,H);
+  gg.addColorStop(0,'#3a2812'); gg.addColorStop(0.3,'#261608'); gg.addColorStop(1,'#0c0804');
+  c.fillStyle = gg; c.fillRect(0, GY, W, H - GY);
+
+  // cobblestones
+  const tw = 46, th = 28;
+  const startTileX = -(camX % (tw*2));
+  for (let row = 0; row < 6; row++) {
+    const off = row % 2 === 0 ? 0 : tw;
+    for (let col = -1; col < W/(tw*2) + 2; col++) {
+      const tx = startTileX + col * tw*2 + off;
+      const ty = GY + row * th;
+      const shade = 0.08 + ((col*3+row*7)%7)/7*0.07;
+      c.fillStyle = `rgba(52,34,13,${shade})`;
+      c.strokeStyle = 'rgba(0,0,0,.28)'; c.lineWidth = 0.4;
+      c.beginPath(); c.roundRect(tx+1, ty+1, tw*2-2, th-2, 2); c.fill(); c.stroke();
+    }
+  }
+}
+
+// ════════════════════════════════════════════════════
+//  DRAW BUILDINGS
+// ════════════════════════════════════════════════════
+const STYLE = {
+  slum:   { w:'#3a2510', d:'#1a0e06', a:'#c09018', win:'rgba(255,128,0,.6)'  },
+  roman:  { w:'#b09060', d:'#806038', a:'#d4aa60', win:'rgba(255,212,90,.55)' },
+  fort:   { w:'#36302a', d:'#181510', a:'#887f60', win:'rgba(200,55,0,.55)'   },
+  church: { w:'#c0b090', d:'#90704e', a:'#d4b870', win:'rgba(55,125,255,.6)'  },
+  ruin:   { w:'#887060', d:'#504030', a:'#a08058', win:'rgba(100,70,28,.5)'   },
+  ancient:{ w:'#a09060', d:'#706040', a:'#d0aa60', win:'rgba(200,128,0,.55)'  },
+};
+function drawBuildings() {
+  buildings.forEach(b => {
+    const bsx = sx(b.x);
+    if (bsx > W+130 || bsx + b.w < -130) return;
+    const bsy = GY - b.h;
+    const s = STYLE[b.style] || STYLE.roman;
+
+    c.fillStyle = s.w; c.fillRect(bsx, bsy, b.w, b.h);
+    c.fillStyle = s.d; c.fillRect(bsx+b.w-11, bsy, 11, b.h); // shadow
+    c.fillStyle = s.d; c.fillRect(bsx, bsy-5, b.w, 5);       // roof lip
+
+    if (b.style === 'church') {
+      c.fillStyle = s.d; c.beginPath(); c.arc(bsx+b.w/2, bsy, b.w*0.35, Math.PI, 0); c.fill();
+      c.fillStyle = s.a; c.fillRect(bsx+b.w/2-2, bsy-b.h*0.2, 4, b.h*0.2);
+    } else if (b.style === 'fort') {
+      for (let i = 0; i < Math.floor(b.w/17); i++) { c.fillStyle=s.w; c.fillRect(bsx+i*17,bsy-9,10,9); }
+    } else if (b.style==='roman'||b.style==='ancient') {
+      [0,0.5,1].forEach(t => { c.fillStyle=s.a; c.fillRect(bsx+t*b.w-2,bsy,4,b.h); });
+    }
+
+    // windows
+    const rows = Math.floor(b.h/46), cols = Math.max(1,Math.floor(b.w/30));
+    for (let r=0;r<rows;r++) for (let col=0;col<cols;col++) {
+      const wx2 = bsx+9+col*((b.w-18)/Math.max(cols-1,1));
+      const wy  = bsy+11+r*42;
+      c.fillStyle=s.win; c.fillRect(wx2,wy,11,14);
+      c.fillStyle='rgba(0,0,0,.35)'; c.fillRect(wx2+5,wy,1,14); c.fillRect(wx2,wy+6,11,1);
+    }
+  });
+
+  // platforms
+  platforms.forEach(pl => {
+    const psx = sx(pl.x);
+    if (psx > W+80 || psx+pl.w < -80) return;
+    const s = STYLE.roman;
+    c.fillStyle=s.d; c.fillRect(psx, pl.y, pl.w, pl.h);
+    c.fillStyle=s.a; c.fillRect(psx, pl.y, pl.w, 2);
+  });
+}
+
+// ════════════════════════════════════════════════════
+//  DRAW PROPS (coins, health, loot)
+// ════════════════════════════════════════════════════
+function drawProps() {
+  // coins
+  coins.forEach(cn => {
+    if (cn.collected) return;
+    const csx = sx(cn.x);
+    if (csx < -20 || csx > W+20) return;
+    const csy = GY - cn.yOff + Math.sin(tick*0.07 + cn.bob)*2.5;
+    const cg = c.createRadialGradient(csx-1,csy-1,0,csx,csy,7);
+    cg.addColorStop(0,'#f0d080'); cg.addColorStop(1,'#c8a040');
+    c.beginPath(); c.ellipse(csx,csy,7,4.5,0,0,Math.PI*2);
+    c.fillStyle=cg; c.fill();
+    c.strokeStyle='#806020'; c.lineWidth=0.5; c.stroke();
+  });
+
+  // health packs
+  healthPacks.forEach(hp => {
+    if (hp.collected) return;
+    const hsx = sx(hp.x);
+    if (hsx < -25 || hsx > W+25) return;
+    const hsy = GY - 20 + Math.sin(tick*0.05 + hp.bob)*3;
+    const hg = c.createRadialGradient(hsx,hsy,0,hsx,hsy,16);
+    hg.addColorStop(0,'rgba(80,220,80,.15)'); hg.addColorStop(1,'transparent');
+    c.fillStyle=hg; c.fillRect(hsx-16,hsy-16,32,32);
+    c.fillStyle='#44cc44'; c.font='16px serif'; c.textAlign='center';
+    c.fillText('❤',hsx,hsy+5); c.textAlign='left';
+  });
+
+  // loot
+  loot.forEach(l => {
+    if (l.collected) return;
+    const lsx = sx(l.x);
+    if (lsx < -30 || lsx > W+30) return;
+    const lsy = GY - 20 + Math.sin(tick*0.05)*4;
+    const col = (l.type==='codex'||l.type==='scroll') ? '80,145,255' : '200,168,75';
+    const lg = c.createRadialGradient(lsx,lsy,0,lsx,lsy,22);
+    lg.addColorStop(0,`rgba(${col},.4)`); lg.addColorStop(1,'transparent');
+    c.fillStyle=lg; c.fillRect(lsx-22,lsy-22,44,44);
+    c.font='18px serif'; c.textAlign='center';
+    c.fillText(l.type==='codex'||l.type==='scroll'?'📜':'💰',lsx,lsy+6);
+    c.fillStyle=`rgba(${col},.9)`; c.font='8px Georgia,serif';
+    c.fillText(l.label,lsx,lsy-18); c.textAlign='left';
+  });
+
+  // projectiles
+  projectiles.forEach(pr => {
+    const psx = sx(pr.x), psy = pr.y;
+    c.save();
+    if (pr.type==='knife') {
+      c.translate(psx,psy); c.rotate(Math.atan2(pr.vy,pr.vx));
+      c.fillStyle='#c8c8c8'; c.fillRect(-12,-2,24,5);
+      c.fillStyle='#e8e8e8'; c.fillRect(10,-2,5,3);
+    } else {
+      const wg = c.createRadialGradient(psx,psy,0,psx,psy,11);
+      wg.addColorStop(0,'rgba(255,190,40,.7)'); wg.addColorStop(1,'transparent');
+      c.fillStyle=wg; c.beginPath(); c.arc(psx,psy,11,0,Math.PI*2); c.fill();
+    }
+    c.restore();
+  });
+}
+
+// ════════════════════════════════════════════════════
+//  DRAW GUARD
+// ════════════════════════════════════════════════════
+function drawGuard(g) {
+  if (g.dead && g.deathF >= 32) return;
+  const gsx = sx(g.x);
+  if (gsx < -70 || gsx > W+70) return;
+
+  const gsy = GY; // feet on ground
+  c.save();
+
+  if (eagleVision) { c.shadowColor='#ff2200'; c.shadowBlur=20; }
+
+  const doff = g.dead ? g.deathF * 1.5 : 0;
+  c.translate(gsx, gsy - doff*0.3);
+  if (g.dead) c.rotate(g.deathF * 0.046);
+  c.scale(g.face || 1, 1);
+  c.globalAlpha = g.dead ? Math.max(0, 1 - g.deathF/32) : 1;
+
+  const COL = {
+    guard:   { b:'#4a2010', h:'#888870', p:'#cc2200' },
+    elite:   { b:'#1a1030', h:'#606088', p:'#9900dd' },
+    captain: { b:'#280808', h:'#c8a040', p:'#ffcc00' },
+  };
+  const col = COL[g.type] || COL.guard;
+
+  // shadow
+  c.save(); c.scale(1,0.1);
+  c.beginPath(); c.ellipse(0,0,21,7,0,0,Math.PI*2);
+  c.fillStyle='rgba(0,0,0,.35)'; c.fill(); c.restore();
+
+  // legs
+  c.fillStyle='#2a1a08';
+  c.fillRect(-12,-8,9,24); c.fillRect(3,-8,9,24);
+  c.fillStyle='#0a0804';
+  c.fillRect(-13,14,11,8); c.fillRect(2,14,11,8);
+
+  // body
+  c.fillStyle=col.b; c.fillRect(-13,-35,26,28);
+  c.fillStyle=(g.type==='captain')?'#8b6914':'#525040';
+  c.fillRect(-11,-33,22,22);
+
+  // arms
+  c.fillStyle='#c0a080';
+  c.fillRect(-20,-32,8,18); c.fillRect(12,-32,8,18);
+
+  // spear
+  c.strokeStyle='#a08060'; c.lineWidth=2.5;
+  c.beginPath(); c.moveTo(17,-48); c.lineTo(17,22); c.stroke();
+  c.fillStyle='#c8c8c8';
+  c.beginPath(); c.moveTo(17,-48); c.lineTo(12,-34); c.lineTo(22,-34); c.closePath(); c.fill();
+
+  // neck + head
+  c.fillStyle='#c09060'; c.fillRect(-5,-47,10,13);
+  c.beginPath(); c.ellipse(0,-55,10,12,0,0,Math.PI*2); c.fillStyle='#c09060'; c.fill();
+
+  // helmet
+  c.fillStyle=col.h;
+  c.beginPath(); c.arc(0,-55,13,Math.PI,0); c.fill();
+  c.fillRect(-13,-55,26,6);
+  c.fillStyle=col.p; c.fillRect(-2,-70,4,17);
+
+  // HP bar for captain
+  if (g.type==='captain' && !g.dead) {
+    c.save(); c.scale(g.face||1,1);
+    c.fillStyle='rgba(0,0,0,.7)'; c.fillRect(-20,-82,40,5);
+    c.fillStyle='#cc2200'; c.fillRect(-20,-82,40*(g.hp/g.maxHp),5);
+    c.restore();
+  }
+  // alert
+  if (g.alerted && !g.dead) {
+    c.save(); c.scale(g.face||1,1);
+    c.fillStyle='#ff4400'; c.font='bold 14px sans-serif'; c.fillText('!', -4, -76);
+    c.restore();
+  }
+  c.restore();
+}
+
+// ════════════════════════════════════════════════════
+//  DRAW NPC
+// ════════════════════════════════════════════════════
+const NPC_STYLE = {
+  leo:      { r:'#b06030', h:'#783018' },
+  mentor:   { r:'#c8a84b', h:'#8b6914' },
+  fence:    { r:'#404848', h:'#202828' },
+  scholar:  { r:'#d0c8b0', h:'#908870' },
+  merchant: { r:'#a07840', h:'#704830' },
+  spy:      { r:'#303858', h:'#181c30' },
+  thief:    { r:'#384830', h:'#202818' },
+  prisoner: { r:'#888880', h:'#555550' },
+};
+function drawNPC(n) {
+  if (n.freed) return;
+  const nsx = sx(n.x);
+  if (nsx < -70 || nsx > W+70) return;
+  const nsy = GY;
+
+  c.save();
+  if (eagleVision) { c.shadowColor='#0088ff'; c.shadowBlur=20; }
+  c.translate(nsx, nsy);
+
+  const ns = NPC_STYLE[n.type] || NPC_STYLE.fence;
+
+  // shadow
+  c.save(); c.scale(1,0.1);
+  c.beginPath(); c.ellipse(0,0,16,5,0,0,Math.PI*2);
+  c.fillStyle='rgba(0,0,0,.3)'; c.fill(); c.restore();
+
+  // robe
+  c.fillStyle=ns.r;
+  c.beginPath(); c.moveTo(-13,0); c.lineTo(-10,-40); c.lineTo(10,-40); c.lineTo(13,0); c.closePath(); c.fill();
+
+  // head
+  c.fillStyle='#d4a870'; c.beginPath(); c.ellipse(0,-49,9,11,0,0,Math.PI*2); c.fill();
+
+  // hood
+  c.fillStyle=ns.h; c.beginPath(); c.arc(0,-49,12,Math.PI,0); c.fill();
+
+  // chains for prisoners
+  if (n.type==='prisoner') {
+    c.strokeStyle='#888870'; c.lineWidth=2;
+    c.beginPath(); c.moveTo(-8,-10); c.lineTo(-20,10); c.stroke();
+    c.beginPath(); c.moveTo(8,-10); c.lineTo(20,10); c.stroke();
+  }
+
+  // prompt
+  if (Math.abs(n.x - P.x) < 80) {
+    const pulse = 0.6 + 0.4*Math.sin(tick*0.12);
+    c.globalAlpha = pulse;
+    c.fillStyle='#c8a84b'; c.font='9px Georgia,serif'; c.textAlign='center';
+    c.fillText('[E] ' + n.name, 0, -70);
+    c.textAlign='left'; c.globalAlpha=1;
+  }
+  c.restore();
+}
+
+// ════════════════════════════════════════════════════
+//  DRAW PLAYER
+// ════════════════════════════════════════════════════
+function drawPlayer() {
+  // Screen position: player feet at P.y (which equals GY when on ground)
+  const psx = sx(P.x);
+  const psy = P.y; // P.y IS the screen Y of the player's feet
+
+  c.save();
+  if (eagleVision) { c.shadowColor='#ffffff'; c.shadowBlur=25; }
+  if (P.invincible > 0 && Math.floor(tick*0.22)%2) c.globalAlpha = 0.35;
+
+  // Translate to feet position
+  c.translate(psx, psy);
+
+  // Bob when walking
+  const walkBob = (P.onGround && (K['ArrowLeft']||K['KeyA']||K['ArrowRight']||K['KeyD']))
+    ? Math.sin(P.animF*0.28)*2.5 : 0;
+  c.translate(0, walkBob);
+
+  c.scale(P.face, 1);
+
+  // Shadow — flat ellipse ON the ground below feet
+  c.save(); c.scale(1,0.1);
+  c.beginPath(); c.ellipse(0,80,22,7,0,0,Math.PI*2);
+  c.fillStyle='rgba(0,0,0,.5)'; c.fill(); c.restore();
+
+  // Legs — hang DOWN from hip to feet
+  const la = P.onGround && (K['ArrowLeft']||K['KeyA']||K['ArrowRight']||K['KeyD'])
+    ? Math.sin(P.animF*0.28)*11 : 0;
+  c.fillStyle='#1a1208';
+  // Left leg
+  c.save(); c.translate(-8,-20); c.rotate(la*0.055);
+    c.fillRect(-5,0,10,28);
+    c.fillStyle='#0a0804'; c.fillRect(-6,22,13,8);
+  c.restore();
+  // Right leg
+  c.save(); c.translate(8,-20); c.rotate(-la*0.055);
+    c.fillRect(-5,0,10,28);
+    c.fillStyle='#0a0804'; c.fillRect(-6,22,13,8);
+  c.restore();
+
+  // Robe (from feet-level up)
+  c.fillStyle='#f0e8d4';
+  c.beginPath(); c.moveTo(-15,0); c.lineTo(-13,-50); c.lineTo(13,-50); c.lineTo(15,0); c.closePath(); c.fill();
+
+  // Belt
+  c.fillStyle='#c8a84b'; c.fillRect(-14,-33,28,6);
+
+  // Chest armour
+  c.fillStyle='#c8bca0'; c.beginPath(); c.roundRect(-10,-50,20,20,3); c.fill();
+
+  // AC emblem on chest
+  c.strokeStyle='rgba(200,168,75,.55)'; c.lineWidth=1;
+  c.beginPath(); c.moveTo(-5,-42); c.lineTo(0,-48); c.lineTo(5,-42); c.stroke();
+
+  // Arms
+  const ar = P.attacking ? Math.sin(P.atkF*0.5)*1.0 : 0;
+  c.fillStyle='#e0d4b8'; c.fillRect(-21,-50,9,22);
+  c.save(); c.translate(14,-48); c.rotate(-ar);
+  c.fillStyle='#e0d4b8'; c.fillRect(0,-4,24,9);
+  if (P.attacking && P.atkF > 4) {
+    c.fillStyle='#b8d0ff';
+    c.beginPath(); c.moveTo(24,0); c.lineTo(46,-5); c.lineTo(46,5); c.closePath(); c.fill();
+    c.strokeStyle='rgba(255,255,255,.88)'; c.lineWidth=1.2;
+    c.beginPath(); c.moveTo(26,-2); c.lineTo(44,0); c.stroke();
+    // glow
+    const bg = c.createRadialGradient(34,0,0,34,0,18);
+    bg.addColorStop(0,'rgba(100,150,255,.38)'); bg.addColorStop(1,'transparent');
+    c.fillStyle=bg; c.fillRect(12,-18,40,36);
+  }
+  c.restore();
+
+  // Neck
+  c.fillStyle='#d4a870'; c.fillRect(-6,-62,12,13);
+
+  // Head
+  c.beginPath(); c.ellipse(0,-70,11,13,0,0,Math.PI*2); c.fillStyle='#d4a870'; c.fill();
+
+  // Face shadow
+  c.fillStyle='rgba(0,0,0,.38)'; c.beginPath(); c.ellipse(0,-68,8,6,0,0,Math.PI*2); c.fill();
+
+  // Eyes
+  c.fillStyle='#fff'; c.fillRect(2,-73,5,3);
+  c.fillStyle = eagleVision ? '#44aaff' : '#44aadd'; c.fillRect(3,-73,3,2);
+
+  // Hood
+  c.fillStyle='#f0e4cc';
+  c.beginPath(); c.moveTo(-16,-60); c.quadraticCurveTo(-14,-90,0,-94); c.quadraticCurveTo(14,-90,16,-60); c.lineTo(12,-52); c.lineTo(-12,-52); c.closePath(); c.fill();
+  c.fillStyle='rgba(0,0,0,.24)'; c.beginPath(); c.ellipse(0,-74,9,6,0,0,Math.PI*2); c.fill();
+
+  // Dodge aura
+  if (P.dodging) {
+    c.fillStyle='rgba(200,168,75,.18)'; c.beginPath(); c.ellipse(0,-45,25,45,0,0,Math.PI*2); c.fill();
+  }
+
+  c.restore();
+}
+
+// ════════════════════════════════════════════════════
+//  DRAW BOSS
+// ════════════════════════════════════════════════════
+function drawBoss() {
+  if (!bossActive || !boss) return;
+  const bsx = sx(boss.x);
+  if (bsx < -120 || bsx > W+120) return;
+  const bsy = GY;
+
+  c.save();
+  if (boss.dead) c.globalAlpha = Math.max(0, 1-(killAnimF-55)/35);
+  if (boss.invF > 0 && Math.floor(tick*0.3)%2) c.globalAlpha=0.45;
+
+  const sc = boss.phase===3?1.2:boss.phase===2?1.1:1.0;
+  const slamOff = boss.slamF>0 ? Math.sin(boss.slamF*0.3)*9 : 0;
+
+  c.translate(bsx, bsy + slamOff);
+  c.scale(Math.sign(P.x - boss.x)||1, 1);
+  c.scale(sc, sc);
+
+  // shadow
+  c.save(); c.scale(1,0.08);
+  c.beginPath(); c.ellipse(0,0,52,16,0,0,Math.PI*2);
+  c.fillStyle='rgba(0,0,0,.5)'; c.fill(); c.restore();
+
+  // legs
+  c.fillStyle='#1a0808'; c.fillRect(-24,-14,19,44); c.fillRect(5,-14,19,44);
+  c.fillStyle='#0a0404'; c.fillRect(-26,28,23,14); c.fillRect(3,28,23,14);
+
+  // cape
+  c.fillStyle='#c00000';
+  c.beginPath(); c.moveTo(-32,-80); c.lineTo(-30,32); c.lineTo(30,32); c.lineTo(32,-80); c.closePath(); c.fill();
+
+  // tabard
+  c.fillStyle='#f0e0c8'; c.fillRect(-19,-70,38,55);
+  c.fillStyle='#cc2200'; c.fillRect(-4,-70,8,55); c.fillRect(-19,-52,38,8);
+
+  // arms
+  c.fillStyle='#c0a070'; c.fillRect(-40,-70,13,34); c.fillRect(27,-70,13,34);
+  c.fillStyle='#888860'; c.fillRect(-42,-38,15,26); c.fillRect(27,-38,15,26);
+
+  // sword
+  c.save(); c.translate(34,-58); c.rotate(0.15);
+  c.fillStyle='#c8c8c8'; c.fillRect(-3,-46,6,66);
+  c.fillStyle='#c8a84b'; c.fillRect(-11,-48,22,7);
+  c.fillStyle='#887860'; c.fillRect(-2,22,4,16);
+  c.restore();
+
+  // torso / neck / head
+  c.fillStyle='#2a0808'; c.fillRect(-23,-90,46,22);
+  c.fillStyle='#c0906a'; c.fillRect(-8,-104,16,16);
+  c.beginPath(); c.ellipse(0,-116,19,22,0,0,Math.PI*2); c.fillStyle='#c0906a'; c.fill();
+
+  // helmet
+  c.fillStyle='#1a0808'; c.beginPath(); c.arc(0,-116,22,Math.PI,0); c.fill(); c.fillRect(-22,-116,44,11);
+  c.fillStyle='#f0ece0'; c.fillRect(-3,-142,5,28);
+
+  // eyes
+  const eyeCol = boss.phase===3?'rgba(255,25,0,.95)':boss.phase===2?'rgba(255,55,0,.85)':'rgba(200,65,0,.75)';
+  c.fillStyle=eyeCol;
+  c.beginPath(); c.arc(-7,-120,4.5,0,Math.PI*2); c.fill();
+  c.beginPath(); c.arc(7,-120,4.5,0,Math.PI*2); c.fill();
+
+  // phase 2+ glow
+  if (boss.phase>=2) {
+    const eg=c.createRadialGradient(0,-120,0,0,-120,34);
+    eg.addColorStop(0,`rgba(255,0,0,${boss.phase===3?.32:.2})`); eg.addColorStop(1,'transparent');
+    c.fillStyle=eg; c.fillRect(-34,-154,68,68);
+  }
+
+  // slam ring
+  if (boss.slamF>0) {
+    const r=(40-boss.slamF)*7;
+    const sg=c.createRadialGradient(0,0,0,0,0,r);
+    sg.addColorStop(0,'rgba(255,100,0,.45)'); sg.addColorStop(1,'transparent');
+    c.fillStyle=sg; c.beginPath(); c.arc(0,0,r,0,Math.PI*2); c.fill();
+  }
+
+  c.restore();
+}
+
+// ════════════════════════════════════════════════════
+//  DRAW PARTICLES
+// ════════════════════════════════════════════════════
+function drawParticles() {
+  particles = particles.filter(p => {
+    p.wx += p.vx; p.wy += p.vy; p.vy += 0.12; p.life -= 0.028;
+    if (p.life <= 0) return false;
+    const psx2 = sx(p.wx), psy2 = p.wy;
+    c.beginPath(); c.arc(psx2, psy2, p.sz*p.life, 0, Math.PI*2);
+    c.fillStyle=`rgba(${p.col},${p.life})`; c.fill();
+    return true;
+  });
+}
+
+// ════════════════════════════════════════════════════
+//  VIGNETTE
+// ════════════════════════════════════════════════════
+function drawVignette() {
+  const vg = c.createRadialGradient(W/2,H/2,H*0.22,W/2,H/2,H*0.88);
+  vg.addColorStop(0,'transparent'); vg.addColorStop(1,'rgba(0,0,0,.65)');
+  c.fillStyle=vg; c.fillRect(0,0,W,H);
+}
+
+// ════════════════════════════════════════════════════
+//  KILL ANIMATION
+// ════════════════════════════════════════════════════
+function drawKillAnim() {
+  if (!killAnimOn) return;
+  killAnimF++;
+  kc.style.display='block';
+  kctx.clearRect(0,0,W,H);
+  const cx2=W*0.5, cy2=H*0.5, prog=killAnimF/82;
+
+  // letterbox
+  const lb=H*0.12;
+  kctx.fillStyle='#000'; kctx.fillRect(0,0,W,lb); kctx.fillRect(0,H-lb,W,lb);
+
+  // flash
+  if (killAnimF<15) {
+    const fa=(1-killAnimF/15)*0.8;
+    const fl=kctx.createRadialGradient(cx2,cy2,0,cx2,cy2,W*0.5);
+    fl.addColorStop(0,`rgba(255,185,70,${fa})`); fl.addColorStop(1,'transparent');
+    kctx.fillStyle=fl; kctx.fillRect(0,0,W,H);
+  }
+
+  // blood
+  if (killAnimF>5&&killAnimF<50) {
+    for(let i=0;i<Math.min(killAnimF-5,30);i++){
+      const a=(i/30)*Math.PI*2+killAnimF*0.08;
+      const dd=(killAnimF-5)*6.5;
+      kctx.beginPath(); kctx.ellipse(cx2+Math.cos(a)*dd,cy2+Math.sin(a)*dd+dd*0.18,3+i%9,(3+i%9)*0.55,a,0,Math.PI*2);
+      kctx.fillStyle=`rgba(${130+i%45},0,0,${0.88*(1-prog)})`; kctx.fill();
+    }
+  }
+
+  // attacker
+  kctx.save(); kctx.translate(cx2-90,cy2+20);
+  kctx.fillStyle='#f0e8d4'; kctx.fillRect(-12,-64,24,64);
+  kctx.fillStyle='#f0e4cc'; kctx.beginPath(); kctx.arc(0,-77,16,Math.PI*0.2,Math.PI*0.8,true); kctx.fill();
+  kctx.save(); kctx.translate(15,-54); kctx.rotate(-Math.min(1.4,killAnimF*0.075));
+  kctx.fillStyle='#d8ceb0'; kctx.fillRect(0,-5,42,10);
+  if(killAnimF>4){
+    kctx.fillStyle='#b8d0ff'; kctx.beginPath(); kctx.moveTo(42,0); kctx.lineTo(70,-5); kctx.lineTo(70,5); kctx.closePath(); kctx.fill();
+  }
+  kctx.restore(); kctx.restore();
+
+  // victim
+  kctx.save(); kctx.globalAlpha=Math.max(0,1-prog*0.92);
+  kctx.translate(cx2+55, cy2+killAnimF*0.55); kctx.rotate(prog*0.75);
+  kctx.fillStyle='#3a1a08'; kctx.fillRect(-10,-54,20,64);
+  kctx.fillStyle='#887860'; kctx.beginPath(); kctx.arc(0,-64,13,0,Math.PI*2); kctx.fill();
+  kctx.restore();
+
+  // KILL text
+  if (killAnimF>10&&killAnimF<56) {
+    const ta=Math.min(1,(killAnimF-10)/7)*Math.max(0,(56-killAnimF)/9);
+    kctx.save(); kctx.globalAlpha=ta;
+    kctx.font=`bold ${52+killAnimF*0.4}px Georgia,serif`;
+    kctx.textAlign='center';
+    kctx.fillStyle='#cc0000'; kctx.fillText('KILL',cx2,cy2-92);
+    kctx.restore();
+  }
+
+  // vignette
+  const v=kctx.createRadialGradient(cx2,cy2,0,cx2,cy2,W*0.72);
+  v.addColorStop(0,'transparent'); v.addColorStop(1,'rgba(0,0,0,.88)');
+  kctx.fillStyle=v; kctx.fillRect(0,0,W,H);
+
+  if (killAnimF>82) { killAnimOn=false; killAnimF=0; kc.style.display='none'; kctx.clearRect(0,0,W,H); }
+}
+
+// ════════════════════════════════════════════════════
+//  MINIMAP
+// ════════════════════════════════════════════════════
+function drawMinimap() {
+  const mw=160, mh=100;
+  mctx.clearRect(0,0,mw,mh);
+  mctx.fillStyle='rgba(6,4,2,.9)'; mctx.fillRect(0,0,mw,mh);
+  const sc=mw/WORLD_W;
+
+  DISTRICTS.forEach(d=>{
+    mctx.fillStyle='rgba(50,34,12,.4)'; mctx.fillRect(d.x*sc,0,d.w*sc,mh);
+    mctx.strokeStyle='rgba(200,168,75,.15)'; mctx.lineWidth=0.4;
+    mctx.strokeRect(d.x*sc,0,d.w*sc,mh);
+  });
+  guards.forEach(g=>{ if(g.dead)return; mctx.beginPath(); mctx.arc(g.x*sc,mh*.7,1.6,0,Math.PI*2); mctx.fillStyle=g.alerted?'#ff4400':'#cc8800'; mctx.fill(); });
+  npcs.forEach(n=>{ if(n.freed)return; mctx.beginPath(); mctx.arc(n.x*sc,mh*.7,2,0,Math.PI*2); mctx.fillStyle='#4488ff'; mctx.fill(); });
+  loot.forEach(l=>{ if(l.collected)return; mctx.beginPath(); mctx.arc(l.x*sc,mh*.7,2,0,Math.PI*2); mctx.fillStyle='#f0d080'; mctx.fill(); });
+  if (bossActive&&boss&&!boss.dead) { mctx.beginPath(); mctx.arc(boss.x*sc,mh*.7,3.5,0,Math.PI*2); mctx.fillStyle='#cc0000'; mctx.fill(); }
+  mctx.beginPath(); mctx.arc(P.x*sc,mh*.7,3,0,Math.PI*2); mctx.fillStyle='#fff'; mctx.fill();
+  mctx.strokeStyle='rgba(200,168,75,.35)'; mctx.lineWidth=0.7; mctx.strokeRect(camX*sc,0,W*sc,mh);
+  mctx.strokeStyle='rgba(200,168,75,.45)'; mctx.lineWidth=1; mctx.strokeRect(0,0,mw,mh);
+}
+
+// ════════════════════════════════════════════════════
+//  HUD
+// ════════════════════════════════════════════════════
+const LEVEL_TITLES = ['Novice','Initiate','Apprentice','Journeyman','Assassin','Master Assassin','Mentor'];
+function gainCoins(n){ P.coins+=n; updateHUD(); }
+function gainXP(n){
+  P.xp+=n;
+  if(P.xp >= P.lv*200){ P.lv++; P.maxHp+=14; P.hp=P.maxHp; P.maxSt+=10; P.st=P.maxSt;
+    showNotif(`Level ${P.lv}`, LEVEL_TITLES[Math.min(P.lv-1,LEVEL_TITLES.length-1)],'gold'); }
+  updateHUD();
+}
+function updateHUD(){
+  el('hpfg').style.width  = (P.hp/P.maxHp*100)+'%';
+  el('stfg').style.width  = (P.st/P.maxSt*100)+'%';
+  el('xpfg').style.width  = ((P.xp%(P.lv*200))/(P.lv*2))+'%';
+  el('coindisplay').textContent = P.coins;
+  el('leveldisplay').textContent = `${LEVEL_TITLES[Math.min(P.lv-1,LEVEL_TITLES.length-1)]} · Lv ${P.lv}`;
+  el('potdisplay').textContent = `⚗ Potions: ${P.potions}`;
+  // interact prompt
+  let pr='';
+  npcs.forEach(n=>{ if(!n.freed&&Math.abs(n.x-P.x)<80) pr=`[E] Speak with ${n.name}`; });
+  loot.forEach(l=>{ if(!l.collected&&Math.abs(l.x-P.x)<75) pr=`[E] ${l.label}`; });
+  const ip=el('prompt');
+  ip.textContent=pr; ip.style.display=pr?'block':'none';
+}
+function updateBossBar(){
+  if(!boss) return;
+  el('bossbarfg').style.width=(boss.hp/boss.maxHp*100)+'%';
+}
+
+// ════════════════════════════════════════════════════
+//  NOTIFICATIONS
+// ════════════════════════════════════════════════════
+let notifTO;
+function showNotif(title,body,type='gold'){
+  el('ntitle').textContent=title;
+  el('ntitle').style.color=type==='red'?'#cc4444':type==='blue'?'#80c0ff':'#c8a84b';
+  el('nbody').textContent=body;
+  el('notif').style.display='block';
+  clearTimeout(notifTO);
+  notifTO=setTimeout(()=>el('notif').style.display='none',3000);
+}
+
+let killFeedTO;
+function showKillFeed(msg){
+  const kf=document.getElementById('killfeed')||createKillFeed();
+  kf.textContent=msg; kf.style.opacity='1';
+  clearTimeout(killFeedTO);
+  killFeedTO=setTimeout(()=>kf.style.opacity='0',2200);
+}
+function createKillFeed(){
+  const d=document.createElement('div');
+  d.id='killfeed';
+  d.style.cssText='position:fixed;top:18px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:2px;color:#cc2200;text-shadow:0 0 10px #cc220088;opacity:0;transition:opacity .3s;pointer-events:none;';
+  document.body.appendChild(d); return d;
+}
+
+function showAreaName(name,sub){
+  el('anTitle').textContent=name;
+  el('anSub').textContent=sub;
+  el('areaname').style.opacity='1';
+  setTimeout(()=>el('areaname').style.opacity='0',3000);
+}
+
+// ════════════════════════════════════════════════════
+//  DEATH / WIN
+// ════════════════════════════════════════════════════
+function triggerDeath(){
+  if(gamePhase==='dead') return;
+  gamePhase='dead';
+  setTimeout(()=>{
+    el('endtitle').textContent='Desynchronized';
+    el('endtitle').style.color='#cc2200';
+    el('endsub').textContent="Your ancestor's memory has been lost.";
+    el('endstats').textContent=`Kills: ${kills}  ·  Florins: ${P.coins}  ·  Level: ${P.lv}`;
+    const es=el('endscreen'); es.style.display='flex';
+  },1400);
+}
+function triggerWin(){
+  if(gamePhase==='won') return;
+  gamePhase='won';
+  setTimeout(()=>{
+    el('endtitle').textContent='The Brotherhood Reborn';
+    el('endtitle').style.color='#c8a84b';
+    el('endsub').textContent="Cesare Borgia falls. Rome breathes free air. The Eagle soars once more.";
+    const doneQ=Object.values(quests).filter(q=>q.done).length;
+    el('endstats').textContent=`Kills: ${kills}  ·  Florins: ${P.coins}  ·  Lv: ${P.lv}  ·  Quests: ${doneQ}/${Object.keys(QUEST_INFO).length}`;
+    el('endscreen').style.display='flex';
+  },2000);
+}
+
+// ════════════════════════════════════════════════════
+//  UTILS
+// ════════════════════════════════════════════════════
+function el(id){ return document.getElementById(id); }
+function flashRed(){
+  const d=el('killflash');
+  d.style.background='rgba(170,0,0,.28)';
+  d.style.opacity='1';
+  setTimeout(()=>d.style.opacity='0',350);
+}
+function toggleEagleVision(){
+  eagleVision=!eagleVision;
+  if(eagleVision) showNotif('Eagle Vision','Allies: Blue  ·  Enemies: Red','blue');
+}
+function toggleFS(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+  else document.exitFullscreen().catch(()=>{});
+}
+addEventListener('fullscreenchange',()=>{ resize(); if(running){ P.y=GY; } });
+
+// ════════════════════════════════════════════════════
+//  MAIN LOOP
+// ════════════════════════════════════════════════════
+function loop(){
+  tick++;
+  c.clearRect(0,0,W,H);
+
+  if(gamePhase==='title'){ requestAnimationFrame(loop); return; }
+
+  // UPDATE
+  if(gamePhase==='playing'){
+    updateCamera();
+    updatePlayer();
+    updateGuardAI();
+    updateBossAI();
+  }
+
+  // DRAW
+  drawBackground();
+  drawGround();
+  drawBuildings();
+  drawProps();
+  npcs.forEach(drawNPC);
+  guards.forEach(drawGuard);
+  drawBoss();
+  drawParticles();
+  drawPlayer();
+  drawVignette();
+
+  // Kill animation on top
+  drawKillAnim();
+
+  // Minimap
+  drawMinimap();
+
+  requestAnimationFrame(loop);
+}
+
+// ════════════════════════════════════════════════════
+//  START
+// ════════════════════════════════════════════════════
+function startGame(){
+  resize();         // ensure W,H,GY are correct NOW
+  buildWorld();     // build world using correct GY
+  P.x=400; P.y=GY; // player feet on ground
+  P.vy=0; P.onGround=true;
+  P.invincible=240; // 4 seconds spawn protection
+  P.hp=100; P.maxHp=100; P.st=100; P.maxSt=100;
+  P.xp=0; P.lv=1; P.coins=0; P.potions=3;
+  P.attacking=false; P.dodging=false;
+  camX=0; tick=0; lastDistrict='';
+  gamePhase='playing'; running=true;
+  el('titlescreen').style.display='none';
+  updateHUD(); renderQuestHUD();
+  showNotif('Rome Awaits','Explore freely — every quest is optional.','gold');
+  setTimeout(()=>showAreaName('Trastevere','The Slums — Western Rome'),1500);
+  loop();
+}
+
+// ════════════════════════════════════════════════════
+//  BUTTON LISTENERS (works in CodePen + standalone)
+// ════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+  var bs = document.getElementById('btn-start');
+  var bf = document.getElementById('btn-fs');
+  var ba = document.getElementById('btn-again');
+  if (bs) bs.addEventListener('click', startGame);
+  if (bf) bf.addEventListener('click', toggleFS);
+  if (ba) ba.addEventListener('click', resetAndPlay);
+});
+
+function resetAndPlay() {
+  el('endscreen').style.display = 'none';
+  gamePhase = 'title';
+  running = false;
+  bossActive = false;
+  killAnimOn = false;
+  killAnimF = 0;
+  eagleVision = false;
+  dlgOpen = false;
+  lastDistrict = '';
+  particles = [];
+  projectiles = [];
+  closeDlg();
+  startGame();
+}
+</script>
+</body>
+</html>

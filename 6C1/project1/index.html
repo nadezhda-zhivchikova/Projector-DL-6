@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kill the owner of HTML</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>kill the owner of HTML
+</h1>
+
+<!-- SCENES -->
+
+<div id="start" class="scene">
+    <p></p>
+    <button onclick="showScene('s1')">Action</button>
+</div>
+
+<div id="s1" class="scene">
+    <p>You're walking in the park and suddenly see the wife of the creator of HTML. You've been hunting him for a long time, and this is your chance to find out where he lives.</p>
+    <button onclick="showScene('ignore')">You ignore her</button>
+    <button onclick="showScene('kidnap')">You kidnap her</button>
+</div>
+  
+<div id="ignore" class="scene">
+    <p>You are boring you dont deserve the true ending this is the end the worst ending.</p>
+</div>
+
+
+<div id="kidnap" class="scene">
+    <p>You kidnap her.</p>
+    <button onclick="showScene('you ask house location')">interrogate her for the location of her husband</button>
+    
+</div>
+  
+<div id="you ask house location" class="scene">
+    <p>she gives it</p>
+    <button onclick="showScene('you go')"> go to his house</button>
+</div>
+  
+  
+    
+
+    <div id="you go" class="scene">
+    <p>you go to his house locked
+and loaded</p>
+    <button onclick="showScene('back')">turn back because you are afraid to kill a man</button>
+    <button onclick="showScene('looking')">you start looking for him</button>
+      </div>
+  
+  <div id="back" class="scene">
+    <h2>You end up broke and you dont kill him. Pathetic.</h2>
+    <button onclick="showScene('start')">start again </button>
+    </div>
+  
+      <div id="looking" class="scene">
+    <p>You find him
+and point your gun at him.</p>
+    <button onclick="showScene('shoot')">You shoot him</button>
+    <button onclick="showScene('dont shoot')">you dont shoot him because at the last second you got afraid to kill him</button>
+</div>
+
+   <div id="shoot" class="scene">
+    <h2>You win you killed the worst person on earth</h2>
+    <button onclick="showScene('start')">start again </button>
+    </div>
+
+   <div id="dont shoot" class="scene">
+    <h2>He shoots you  instead and you die</h2>
+    <button onclick="showScene('start')">start again </button>
+    </div>
+  
+<!-- JS -->
+<script src="script.js"></script>
+
+</body>
+</html>
+
+
+
+
+<body style="background-color: blue;">
+  <style> p { color: #FF0000; } </style>

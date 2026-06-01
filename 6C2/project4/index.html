@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <title>Fedor's Kvest</title>
+    <meta charset="UTF-8">
+
+    <style>
+        body {
+            background-color: black;
+        }
+
+        .scene {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        .t {
+            color: white;
+            font-size: 27px
+        }
+      button {
+        color: white;
+        background-color: black;
+        font-size: 17px
+      }
+    </style>
+</head>
+
+<body>
+    <div id="Start_scene" class="scene visible">
+        <h1 class="t">You are falling in the "Яма"</h1>
+
+        <button onclick="goto('Scene1')">
+            Start the game
+        </button>
+    </div>
+  
+    <div id="Scene1" class="scene">
+      <p class="t">You see a “Шып” under you</p>
+      <button onclick="goto('Scene2')">
+ You can try to move while you are falling so you won’t hit the “Шып”
+        </button>
+      <button onclick = "goto('Scene')">
+        Don't do anything
+      </button>
+    </div>
+  
+  <div id ="Scene2" class = "scene">
+    <p class = "t">
+      You moved but you see one more “Шып” in like 3 metres under you
+    </p>
+      <button  onclick = "goto('Scene3')">
+        Try to move one more time
+      </button>
+      
+      <button  onclick = "goto('Scene4')">
+        Don't do anything
+      </button>
+  </div>
+  
+  <div id = "Scene3" class = "scene">
+    <p class = "t">
+      You did not have enough time to move you hit the “Шып”
+    </p>
+    <button onclick = "goto('Start_scene')">
+      Try again
+    </button>
+  </div>
+  
+  <div id = "Scene4" class = "scene">
+    <p class = "t">
+      You hit the “Шып”
+    </p>
+    <button onclick = "goto('Start_scene')">
+      Try again
+    </button>
+  </div>
+
+    <script>
+
+        function goto(sceneId) {
+            let scenes = document.getElementsByClassName("scene");
+
+            for (let i = 0; i < scenes.length; i++) {
+                scenes[i].classList.remove("visible");
+            }            document.getElementById(sceneId).classList.add("visible");
+        }
+
+    </script>
+
+</body>
+</html>

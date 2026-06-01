@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gravity Falls Quest</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Gravity Falls</h1>
+
+<!-- NAME INPUT -->
+
+<div id="introName" class="scene">
+    <p>You hear screaming and crashing... the choice is yours</p>
+
+    
+
+    <br><br>
+
+    <button onclick="showScene('game over')">ignore</button>
+<button onclick="showScene('chose of the character')">go outside and see what's there
+</button>
+    
+</div>
+
+<!-- RIDDLE 1 -->
+
+<div id="game over" class="scene">
+    <p><span class="playerName"></span>you lose:(</p>
+
+    
+
+    
+
+    
+</div>
+
+<!-- RIDDLE 2 -->
+
+<div id="chose of the character" class="scene">
+    <p>choose the character</p>
+<button onclick="showScene('action 1')">Gruncle Stan</button>
+  <button onclick="showScene('action 12')">Waddles</button>
+  
+  </div>
+
+<!-- MAIN QUEST -->
+
+<div id="action 1" class="scene">
+    <p>You go out and see mabel and dipper being carried away by an incomprehensible creature
+</p>
+    <button onclick="showScene('action 20')">ignore and go watch TV</button>
+  <button onclick="showScene('action 2')">run to save them</button>
+</div>
+
+<div id="action 2" class="scene">
+    <p>You run through the forest brushing leaves from your face.</p>
+    <button onclick="showScene('action 3')">keep going</button>
+    
+</div>
+
+<div id="action 3" class="scene">
+    <p>Suddenly, 4 gnomes run out onto your road and don't let you pass.</p>
+    <button onclick="showScene('action 4')">push them</button>
+  <button onclick="showScene('action 5')">get around</button>
+</div>
+
+<div id="action 4" class="scene">
+    <p>Get out of here! ...
+There are definitely no cops in the forest...
+Bah, you're throwing gnomes around.</p>
+  <button onclick="showScene('action 5')">continue</button>
+    </div>
+
+<div id="action 5" class="scene">
+    <p>The gnomes have passed, you run on</p>
+    <button onclick="showScene('action 6')">go</button>
+</div>
+
+<!-- ENDINGS -->
+
+<div id="action 6" class="scene">
+    <p>you keep running . after 5 minutes you see a path of money that leads into the forest thicket.</p>
+    <button onclick="showScene('action 7')">MONEY</button>
+  <button onclick="showScene('action 8')">collect money and run on
+</button>
+</div>
+    
+<div id="action 7" class="scene">
+    <p>money money money must be funny in a rich man’s world</p>
+    <button onclick="showScene('action 8')"> > </button>
+</div>
+   
+  <div id="action 8" class="scene">
+    <p>you see a flock of birds that are frightened and scattering around
+</p>
+    <button onclick="showScene('action 10')">climb a tree and see where they are flying from
+</button>
+    <button onclick="showScene('action 9')">KAR-KAR, well, get out of here
+
+</button>
+</div>
+
+ <div id="action 9" class="scene">
+    <p>you are standing alone in a creepy forest...
+</p>
+</div>
+<div id="action 10" class="scene">
+    <p>you saw a cave on a misty mountain. strange sounds came out of her
+ </p>
+    <button onclick="showScene('action 9')">stay sitting on the tree
+    </button>
+    <button onclick="showScene('action 11')">go to the cave
+</button>
+</div>
+  <div id="action 11" class="scene">
+    <p>you run for 30 minutes and finally you are there 
+ </p>
+    <p>you come in and see this: </p>
+    <p>gruncle! HAPPY BIRTHDAY </p> </div>
+   
+    <div id="action 20" class="scene">
+    <p>YOU LOOOOSE </p>
+</div>
+
+  <div id="action 12" class="scene">
+    <p>your potatoes have been stolen!
+(oink oink oink) </p>
+ <button onclick="showScene('action 13')"> > </button> </div>
+  
+<div id="action 13"class="scene">
+ <p>NOOOOOOO
+(oink oink oink) </p>
+ <button onclick="showScene('action 14')"> > </button> </div>
+
+<div id="action 14"class="scene">
+ <p>waddles ! what are you doing?
+said mabel 
+ </p>
+ <button onclick="showScene('action 15')"> > </button> </div>
+
+<div id="action 15"class="scene">
+ <p>NOOO MY POTATOS (oink oink oink)
+ </p>
+ <button onclick="showScene('action 16')"> > </button> </div>
+
+<div id="action 16"class="scene">
+ <p>who are the coolest here!?
+WEEEEE
+ </p>
+ 
+
+
+
+
+
+
+
+
+    
+<!-- JS -->
+<script src="script.js"></script>
+
+</body>
+</html>

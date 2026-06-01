@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Oh, baby... Quest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ballet:opsz@16..72&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000000;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('https://img.freepik.com/premium-photo/artistic-red-black-blurry-colorful-gradient-wallpaper-background_1008660-4684.jpg?semt=ais_hybrid&w=740&q=80');
+           background-repeat: no-repeat;
+           background-size: 1000px 1000px;
+            
+        }
+
+        .scene {
+            display: none;
+            margin-top: 50px;
+        }
+        h1 {
+            font-family: "Pinyon Script", cursive;
+            font-weight: 400;
+            font-size: 55pt;
+        }
+        button {
+          background-color: #690000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 20px;
+          font-family: "Bodoni Moda", serif;
+            font-weight: 800;
+          border-radius: 8px;   
+        }
+      p {
+        font-family: "Bodoni Moda", serif;
+            font-weight: 200;
+            font-size: 20pt;
+      }
+
+        button:hover {
+            background-color: #9C0000;
+        }
+    </style>
+</head>
+<body>
+
+
+ 
+<!-- SCENES -->
+
+<div id="start" class="scene">
+  <h1>Oh, baby...</h1>
+
+    <p>You wake up with your hands tied. It's dark everywhere. You hear a rough male voice: "How did you sleep, baby?"</p>
+    <button onclick="showScene('I am Jake')">Say: "Hello, who are you?"</button>
+    <button onclick="showScene('Hand touch')">Say: "What the hell is going on here?!"</button>
+</div>
+
+<div id="I am Jake" class="scene">
+    <p>"Don't you remember me? I'm Jake, sweetie."</p>
+    <button onclick="showScene('Where')">"Oh, I remember you."</button>
+    <button onclick="showScene('Find out')">"Who?"</button>
+</div>
+
+<div id="Hand touch" class="scene">
+    <p>You feel the touch of a cold but soft hand: "If you want it bad," you get a slap, "it will be bad."</p>
+    <button onclick="showScene('Footsteps')">Stay quiet.</button>
+    <button onclick="showScene('Young life')">Start kicking.</button>
+</div>
+
+<div id="Where" class="scene">
+    <p>"And from where?"</p>
+    <button onclick="showScene('Sorry')">"I lied."</button>
+  <button onclick="showScene('Leaves')">"We've met."</button>
+</div>
+
+<div id="Find out" class="scene">
+    <p>"You'll find out..."</p>
+    <button onclick="showScene('Mouth')">"Let me go."</button>
+    <button onclick="showScene('Speak')">Keep silent.</button>
+</div>
+  
+
+  
+<div id="Leaves" class="scene">
+    <p>"Okay, I have to go. Don't move, or I'll shoot you." He leaves.</p>
+    <h2>You untied yourself and escaped.</h2>
+    <button onclick="restart()">Play again</button>
+</div>
+  
+<div id="Footsteps" class="scene">
+    <p>"Finally shut up."—Footsteps are heard walking away from you.</p>
+    <h2>You untied yourself and escaped.</h2>
+    <button onclick="restart()">Play again</button>
+</div>
+
+<div id="Young life" class="scene">
+    <p>"Oh, what a pity for such a... young life. Bye, honey." You're being shot at.</p>
+    <h2>You’re dead.</h2>
+    <button onclick="restart()">Try again</button>
+</div>
+
+<div id="Mouth" class="scene">
+    <p>"Don't open your mouth, ever." He shoots at you.</p>
+    <h2>You’re dead.</h2>
+    <button onclick="restart()">Try again</button>
+</div>
+
+<div id="Speak" class="scene">
+    <p>"You don't speak, and you won't speak." The guy shoots at you.</p>
+    <h2>You’re dead.</h2>
+    <button onclick="restart()">Try again</button>
+</div>
+
+  <div id="Sorry" class="scene">
+    <p>"I'm sorry. I won't see you again." Jake shoots you.</p>
+    <h2>You’re dead.</h2>
+    <button onclick="restart()">Try again</button>
+</div>
+
+<!-- JS -->
+
+<script>
+function showScene(sceneId) {
+    let scenes = document.getElementsByClassName("scene");
+
+    for (let i = 0; i < scenes.length; i++) {
+        scenes[i].style.display = "none";
+    }
+
+    document.getElementById(sceneId).style.display = "block";
+}
+
+function restart() {
+    showScene("start");
+}
+
+// start scene
+showScene("start");
+</script>
+
+</body>
+</html>

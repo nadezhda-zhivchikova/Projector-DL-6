@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dark quest</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Dark quest</h1>
+
+<!-- SCENES -->
+
+<div id="start" class="scene">
+    <p> В маленьком городе начали происходить странные вещи</p>
+  <img src="https://i.pinimg.com/1200x/9e/5c/c1/9e5cc1652b6cb844cdd81b70b9bd89ee.jpg" width="200">
+  <br>
+    <button onclick="showScene('choice1')"> не предать этому значение</button>
+    <button onclick="showScene('choice2')"> что-то начать с этим делать</button>
+
+</div>
+
+<div id="choice1" class="scene">
+    <p></p> 
+  <img src="https://i.pinimg.com/1200x/a7/e2/2f/a7e22f4ff6723ead842f18d55fc2d7ad.jpg" width="200">
+  <br>
+    <button onclick="showScene('choice3')">у тебя начались частые головокружения, но ты не предал(а) этому большое значение</button>
+    
+</div>
+
+  <div id="choice2" class="scene">
+    <p>ты думаешь
+ спросить у других жителей замечают ли они что-нибудь</p><img src="https://i.pinimg.com/1200x/75/35/f0/7535f00597be5c40a2e711692eec7f9d.jpg" width="200">
+    <br>
+    <button onclick="showScene('choice4')">спросить у жителей</button>
+    <button onclick="showScene('choice5')">оставь  это мнение при себе</button>
+</div>
+
+  <div id="choice3" class="scene">
+    <p>ты думаешь пойти к врачу</p>
+   
+ <img src="https://i.pinimg.com/1200x/ee/f7/fd/eef7fdb5b960fe4ce93cc5f517911601.jpg" width="200">
+    <br>
+    <button onclick="showScene('choice6')">пойти к врачу</button>
+    <button onclick="showScene('choice7')">не пойти к врачу</button>
+</div>
+
+   <div id="choice6" class="scene">
+    <p></p>
+    <button onclick="showScene('choice8')">маладецц,правильно!!</button>
+     <br>
+     <img src="https://i.pinimg.com/1200x/f0/e7/2a/f0e72a410ddb2297e80ae63fa686ae43.jpg" width="200">
+</div>
+  
+      <div id="choice8" class="scene">
+    <p>доктор предлагает выпить лекарство, говорит оно поможет и все пройдет, но тебе это лекарство кажется не безопастным</p> <img src="https://i.pinimg.com/1200x/f9/a4/47/f9a447af886c5126e9795d51e45e921d.jpg" width="200">
+        <br>
+    <button onclick="showScene('choice9')">откажешься</button>
+    <button onclick="showScene('choice10')">выпьешь лекарство, надеешься на лучшее</button>
+</div>
+
+   <div id="choice9" class="scene">
+    <p></p>
+    <button onclick="showScene('choice11')">ПРАВИЛЬНЫЙ ВЫБОР, доктор подмешал тебе яд в лекарство</button>
+  <br>
+     <img src="https://i.pinimg.com/736x/6b/a0/9d/6ba09d6b093c80cae24448b238b15d77.jpg" width="300">
+     
+     <img src="" width="300">
+</div>
+
+    <div id="choice11" class="scene">
+    <p>выходишь на улицу, видишь что никого нету, ты естественно понимаешь что нужно что-то делать, так как сейчас выходные, всегда много людей</p>
+    <button onclick="showScene('choice12')">ты решил укусить рандомного человека потому что ты был тупым</button>
+    <button onclick="showScene('choice13')">ты решил попробовать найти что-нибудь, нашел архив, сказал полиции об этом ужасе</button>
+
+      <button onclick="showScene('choice14')">ты решаешь смириться с этим и продолжить в этом жить</button>
+</div>
+
+   <div id="choice12" class="scene">
+    <p>ты был тупым и остаешься им, поэтому ты проиграл((
+истинная концовка</p> 
+ <img src="https://i.pinimg.com/1200x/5d/db/2d/5ddb2de76fe1797955c0eda44df02b05.jpg" width="300">
+   
+</div>
+
+   <div id="choice13" class="scene">
+    <p>ты выжил, был умным челиком, поздрвляю, маладецц</p>
+   <img src="https://i.pinimg.com/736x/5a/2a/57/5a2a57c887992e154dd118bd07aad53f.jpg" width="300">
+</div>
+
+   <div id="choice14" class="scene">
+    <p>тебе решать, плохая или хорошая это концовка.
+в конце концов все умерли и ты остался один, но ты продождал жить дальше. Зато в магазинах все бесплатно</p>
+    <img src="https://i.pinimg.com/736x/c9/61/5f/c9615ffc9a1b9611349051edfdd4b523.jpg" width="300">
+</div>
+
+   <div id="choice10" class="scene">
+    <p>барабанная дробь ...  и ты умер. Угадай почему, есть предположения?? 
+Не знаю угадал ли ты, но  лекарство на самом деле было не лекарством, а ядом</p> <img src="https://i.pinimg.com/736x/93/ae/ca/93aeca3b0f7576294b405557b67cd6dc.jpg" width="300">
+   
+</div>
+
+  <div id="choice7" class="scene">
+    <p>упси, ты умер из-за остановки сердца так как не пошел к врачу</p> <img src="https://i.pinimg.com/736x/32/3b/0d/323b0d1000191b35713e10538464c992.jpg" width="300">
+   
+</div>
+
+   <div id="choice5" class="scene">
+    <p>упс, ты умер, маладца</p>
+     <br>
+     <img src="https://i.pinimg.com/736x/2a/af/17/2aaf1707d9843f62142c22a7b0116ff5.jpg" width="300">
+   
+</div>
+
+   <div id="choice4" class="scene">
+    <p></p>
+    <button onclick="showScene('choice15')">они тоже стали замечать изменения</button>
+     <br>
+    <img src="https://i.pinimg.com/1200x/c0/de/4d/c0de4dda1d21e55af5bb5f6a6599866a.jpg" width="200">
+</div>
+
+  <div id="choice15" class="scene">
+    <p>ты думаешь пойти в полицию, это уже стремно</p> 
+    <img src="https://i.pinimg.com/1200x/3c/91/35/3c91358867bffab8fd23be3b9eab92a5.jpg" widht ="300">
+    <br>
+    <button onclick="showScene('choice16')">не пойти в полицию, надеешься что это просто совпадение</button>
+     <button onclick="showScene('choice17')">пойти в полицию и рассказать об изменениях</button>
+</div>
+
+   <div id="choice16" class="scene">
+    <p>угадай что... 
+для тебя игра закончена, ты умер!</p>
+     <img src="https://i.pinimg.com/736x/3f/b7/97/3fb797348826571dc30fd221a3a7a41c.jpg" widht ="50">
+    
+</div>
+
+   <div id="choice17" class="scene">
+    <p></p> <img src="https://i.pinimg.com/736x/87/d2/b9/87d2b92d5890fa05256a19871c9d5e96.jpg" widht ="50">
+    <button onclick="showScene('choice18')">полиция решила вмешаться и понять в ближайшие дни что-то действительно случилось</button>
+</div>
+
+  <div id="choice18" class="scene">
+    <p></p> <img src="https://i.pinimg.com/1200x/3f/62/de/3f62dea4706879995048de5db82a4ec5.jpg" width="200">
+    <button onclick="showScene('choice19')">полиция нашла из-за чего все это происходило и остановила это все</button>
+</div>
+
+   <div id="choice19" class="scene">
+    <p>молодец! ты выиграл. это все происходило из-за массового вируса которым ты вот-вот мог заразиться </p>
+     <br>
+     <img src="https://i.pinimg.com/736x/44/9a/27/449a27f70f2ae1085b207c3137b2898b.jpg" width="200">
+   
+</div>
+<!-- JS -->
+<script src="script.js"></script>
+
+</body>
+</html>

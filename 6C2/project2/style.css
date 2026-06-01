@@ -1,0 +1,34 @@
+body {
+    background-color: black;
+    color: #e0e0e0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-image: url('https://cdn.wallpapersafari.com/23/59/gQKaLI.jpg');
+
+  
+}
+
+.scene {
+    display: none;
+    margin-top: 50px;
+}
+
+button {
+    background-color: #A20BF4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #68079C;
+}
+
+input {
+    padding: 8px;
+    font-size: 16px;
+    text-align: center;
+}

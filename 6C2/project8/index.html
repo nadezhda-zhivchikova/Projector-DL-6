@@ -1,0 +1,68 @@
+*<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dark Forest Quest</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1> Forest</h1>
+
+
+<div id="start" class="scene">
+    <p>You wake up in the forest with your brother Tom who lies unconcsios</p>
+    <button onclick="showScene('s1')">Try to run away</button>
+      <button onclick="showScene('s2')">Try to call for HELP </button>
+      <button onclick="showScene('s3')">Try to wake up Tom</button>
+</div>
+
+<div id="s1" class="scene">
+    <p>You ran through the dark forest and the time stops but you still see and move your head. 
+Two people in black are showing signs with their hands, maybe talking .</p>
+       <button onclick="showScene('s4')">Don't move </button>
+</div>
+
+  <div id="s3" class="scene">
+    <p>You tryed to wake Tom and then you rialise that he is not breathing and cold, probably dead </p>
+      <button onclick="showScene('s3')"> </button>
+</div>
+
+  <div id="s2" class="scene">
+    <p>When you start screaming you can even hear your voice. Then you relise how stupid was your action, someone dangerous could heard you </p>
+      <button onclick="showScene('s5')"></button>
+
+</div>
+
+<div id="s4" class="scene">
+    <p>People noitce you with open eyes and then you blink, they are coming to you, but there is nothing you can do about it. They ask about your personal info.</p>
+      <button onclick="showScene('s6')">You answer, but it was a lie </button>
+</div>
+<div id="s6" class="scene">
+    <p>They brought you in a dark sceary place were someone was screaming for help wich made you throug up, but you staid silent </p>
+      <button onclick="showScene('s7')">fall aslep</button>
+</div>
+
+  <div id="s7" class="scene">
+    <p>One day past, you were thirsty and exausted,but still silent </p>
+    <button onclick="showScene('s8')">continue staing silent</button>
+</div>
+<div id="s9" class="scene">
+    <p>One day past, you were thirsty and exausted,but still silent </p>
+    <button onclick="showScene('s9')">continue staing silent</button>
+</div>
+<div id="s8" class="scene">
+    <p>After a while you had a sharp pain in your stomach < </p>/ 
+  <button
+onclick="showScene('s8')">Endure</button>
+</div>
+<div id="s9" class="scene">
+    <p>I AM SORRY BUT YOU ARE DEAD< </p>
+  <button
+onclick="showScene('s9')">next</button>
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+body {
+  background-color: #0A0605;
+  color: #CCD1DB;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.scene {
+  display: none;
+  margin-top: 50px;
+}
+
+button {
+  background-color: #70A5B7;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #305C82;
+}

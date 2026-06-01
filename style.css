@@ -1,58 +1,178 @@
+/* =========================
+   GENERAL
+========================= */
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #111;
-  color: white;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #FFEBCD;
+  color: #8B4514;
 }
+
+/* =========================
+   HEADER
+========================= */
 
 header {
   text-align: center;
-  padding: 40px 20px;
-  background: #1e1e1e;
+  padding: 60px 20px;
+  background: linear-gradient(
+    135deg,
+    #DEB887,
+    #CD853F
+  );
+  color: white;
 }
+
+header h1 {
+  margin: 0;
+  font-size: 3rem;
+}
+
+header p {
+  margin-top: 12px;
+  font-size: 1.2rem;
+}
+
+/* =========================
+   FILTER BUTTONS
+========================= */
 
 .filters {
   text-align: center;
-  margin: 25px;
+  margin: 35px 0;
 }
 
 button {
-  padding: 10px 18px;
+  padding: 12px 24px;
   margin: 5px;
+
   border: none;
-  border-radius: 10px;
-  background: #900;
-  color: white;
+  border-radius: 999px;
+
+  background: #DEB887;
+  color: #8B4514;
+
+  font-size: 1rem;
+  font-weight: 700;
+
   cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(139, 69, 20, 0.18);
+
+  transition: all 0.2s ease;
 }
 
 button:hover {
-  background: #c00;
+  background: #CD853F;
+  color: white;
+  transform: translateY(-2px);
 }
+
+/* =========================
+   PROJECT GRID
+========================= */
 
 .projects {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(340px, 1fr));
+
+  gap: 26px;
+
   padding: 30px;
+
+  max-width: 1400px;
+  margin: 0 auto;
 }
+
+/* =========================
+   PROJECT CARD
+========================= */
 
 .card {
   display: block;
+
   text-decoration: none;
-  color: white;
-  background: #222;
-  padding: 25px;
-  border-radius: 18px;
-  min-height: 160px;
-  transition: 0.2s;
+  color: inherit;
+
+  background: #FFF8EE;
+
+  border-radius: 24px;
+  overflow: hidden;
+
+  box-shadow:
+    0 8px 24px rgba(139, 69, 20, 0.14);
+
+  transition: all 0.25s ease;
 }
 
 .card:hover {
-  transform: scale(1.03);
-  background: #333;
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 14px 32px rgba(139, 69, 20, 0.22);
+}
+
+/* =========================
+   COVER IMAGE
+========================= */
+
+.card img {
+  width: 100%;
+
+  aspect-ratio: 16 / 9;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+/* =========================
+   CARD CONTENT
+========================= */
+
+.card-content {
+  padding: 24px;
 }
 
 .card h2 {
-  color: #ff5555;
+  margin: 0 0 16px;
+
+  color: #8B4514;
+
+  font-size: 2rem;
+  line-height: 1.15;
+}
+
+.card p {
+  margin: 8px 0;
+
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* =========================
+   CLASS BADGE
+========================= */
+
+.badge {
+  display: inline-block;
+
+  background: #DEB887;
+  color: #8B4514;
+
+  padding: 5px 12px;
+
+  border-radius: 999px;
+
+  font-size: 0.85rem;
+  font-weight: 700;
+
+  margin-bottom: 12px;
+}
+
+.hidden {
+  display: none !important;
 }

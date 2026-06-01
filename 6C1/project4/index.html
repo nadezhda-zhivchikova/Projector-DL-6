@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>monsters</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Ragnarok</h1>
+  
+
+<!-- SCENES -->
+
+<div id="start" class="scene">
+    <p>You're an ordinary worker who works in a pizzeria and comes home to play with friends, but your friends are weird</p>
+    <button onclick="showScene('forest')">ignor</button>
+ <button onclick="showScene('yy')">stop playing</button>
+</div>
+
+<div id="forest" class="scene">
+    <p>they started speaking an unknown language</p>
+    <button onclick="showScene('house')">translate</button>
+    <button onclick="showScene('hi')">play</button>
+</div>
+<div id="house" class="scene">
+    <p>This is the language of ktulhu</p>
+    <button onclick="showScene('nah')">translate</button>
+    <button onclick="showScene('path')">Look out the window</button>
+</div>
+<div id="nah" class="scene">
+    <p>They killed you with a spell.</p>
+
+</div>
+<div id="path" class="scene">
+    <p>Something flashed in front of the window</p>
+    <button onclick="showScene('han')">stil standing </button>
+    <button onclick="showScene('knife')">Take a knife</button>
+</div>
+  <div id="han" class="scene">
+    <p>You were dragged into the forest</p>
+  
+</div>
+<div id="hi" class="scene">
+    <p>you died</p>
+ 
+</div>
+  <div id="knife" class="scene">
+    <p>You were attacked but you survived</p>
+    </div>
+
+  <div id="yy" class="scene">
+  <p>You realize that these are not their voices and turn off the game</p>
+ <button onclick="showScene('bad ending')">go to the kitchen</button>
+ <button onclick="showScene('dead')">go to bed</button>
+</div>
+
+<div id="bad ending" class="scene">
+ <p>They sneaked into the kitchen and posessed you</p>
+
+</div>
+<div id="dead" class="scene">
+<p>they killed you while you were sleeping</p>
+
+</div> 
+
+<!-- JS -->
+<script src="script.js"></script>
+
+</body>
+</html>

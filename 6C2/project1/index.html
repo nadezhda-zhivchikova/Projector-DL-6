@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Zombie Survival</title>
+
+<style>
+
+body{
+    background:#111;
+    color:white;
+    font-family:Arial;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+
+.game{
+    background:#1e1e1e;
+    padding:25px;
+    border-radius:15px;
+    width:700px;
+    box-shadow:0 0 20px black;
+}
+
+#text{
+    margin-bottom:20px;
+    white-space:pre-line;
+    line-height:1.5;
+    font-size:18px;
+}
+
+#img img{
+    width:100%;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+button{
+    margin:5px;
+    padding:10px 15px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+    background:#3b3b3b;
+    color:white;
+    transition:0.2s;
+}
+
+button:hover{
+    background:#5a5a5a;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+    <div id="text"></div>
+
+    <div id="img"></div>
+
+    <div id="buttons"></div>
+
+</div>
+
+<script>
+
+const text = document.getElementById("text");
+const buttons = document.getElementById("buttons");
+const img = document.getElementById("img");
+
+function showScene(scene){
+
+    text.innerText = scene.text;
+
+    img.innerHTML = `<img src="${scene.img}">`;
+
+    buttons.innerHTML = "";
+
+    scene.options.forEach(option => {
+
+        const btn = document.createElement("button");
+
+        btn.innerText = option.text;
+
+        btn.onclick = option.next;
+
+        buttons.appendChild(btn);
+
+    });
+
+}
+
+function startGame(){
+
+    showScene({
+
+        text:`В мире появилась неизвестная болезнь, которая превращает людей в ходячих мутантов.
+
+Сейчас день, и заражённые почти не двигаются.
+
+Болезнь распространилась неизвестно как:
+то ли воздушно-капельным путём,
+то ли заражённые кусали других людей.
+
+Рискнёшь выйти на улицу без респиратора?`,
+
+        img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbtDhbmMt3f0DcVNE_egSvqq-XeyXXMTT7jQ&s",
+
+        options:[
+
+            {
+                text:"Порыться в кладовке и найти респиратор",
+                next:swordScene
+            },
+
+            {
+                text:"Выйти без него",
+                next:() => ending("Вы проиграли.\nБолезнь на пике распространения, без защиты выходить нельзя.")
+            }
+
+        ]
+
+    });
+
+}
+
+function swordScene(){
+
+    showScene({
+
+        text:`Отлично, вы выбрались на улицу и с вами ничего не случилось.
+
+Нужно пополнить запасы еды,
+но на улице начинает темнеть.
+
+Рискнёшь ли ты пойти в ближайший магазин?`,
+
+        img:"https://cdn.pixabay.com/photo/2020/03/20/01/23/zombie-4948676_1280.jpg",
+
+        options:[
+
+            {
+                text:"Пойти в магазин несмотря на темноту",
+                next:chestScene
+            },
+
+            {
+                text:"Вернуться домой и переждать ночь",
+                next:attackScene
+            }
+
+        ]
+
+    });
+
+}
+
+function chestScene(){
+
+    showScene({
+
+        text:`Вы пошли в магазин ночью.
+
+В темноте вы не заметили заражённых.
+
+Вас окружили и съели.
+
+Конец.`,
+
+        img:"https://cdn.pixabay.com/photo/2017/09/25/13/12/fantasy-2784459_1280.jpg",
+
+        options:[
+
+            {
+                text:"Играть снова",
+                next:startGame
+            }
+
+        ]
+
+    });
+
+}
+
+function attackScene(){
+
+    showScene({
+
+        text:`Вы вернулись домой.
+
+Ночью заражённые начали ходить по улицам.
+
+Что делать дальше?`,
+
+        img:"https://cdn.pixabay.com/photo/2020/04/09/09/55/city-5020002_1280.jpg",
+
+        options:[
+
+            {
+                text:"Лечь спать и дождаться утра",
+                next:() => ending(`Вы дождались утра.
+
+Заражённые снова перестали двигаться.
+
+Вы спокойно сходили в магазин,
+набрали еды и научились выживать.
+
+Хорошая концовка.`)
+            },
+
+            {
+                text:"Не спать всю ночь и караулить вход",
+                next:() => ending(`Вы услышали стук в дверь.
+
+Показалось, что это человек.
+
+Но когда вы открыли дверь —
+это оказался мутировавший зомби.
+
+Вас съели.
+
+Плохая концовка.`)
+            }
+
+        ]
+
+    });
+
+}
+
+function ending(message){
+
+    showScene({
+
+        text:message,
+
+        img:"https://cdn.pixabay.com/photo/2016/11/29/03/53/zombie-1867717_1280.jpg",
+
+        options:[
+
+            {
+                text:"Играть снова",
+                next:startGame
+            }
+
+        ]
+
+    });
+
+}
+
+startGame();
+
+</script>
+
+</body>
+</html>
