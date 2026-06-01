@@ -5,11 +5,12 @@
   <title>School Web Quests</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <header>
-  <h1>School Web Quests</h1>
-  <p>HTML + CSS + JavaScript projects</p>
+  <h1>Digital Literacy 6C Projects</h1>
+  <p>web-quests</p>
 </header>
 
 <section class="filters">
@@ -21,21 +22,129 @@
 <main class="projects">
 
   <a class="card 6c1" href="6c1/project1/index.html">
-    <h2>School Quest</h2>
-    <p>Class: 6C1</p>
-    <p>Author: Student name</p>
+    <div class="card-content">
+      <div class="badge">6C1</div>
+      <h2>Kill the Owner of HTML</h2>
+      <p><strong>Authors:</strong> Nikita and Misha</p>
+    </div>
   </a>
 
   <a class="card 6c1" href="6c1/project2/index.html">
-    <h2>Zombie Survival</h2>
-    <p>Class: 6C1</p>
-    <p>Author: Student name</p>
+    <div class="card-content">
+      <div class="badge">6C1</div>
+      <h2>Fighting Apathy Quest</h2>
+      <p><strong>Author:</strong> Liza</p>
+    </div>
+  </a>
+
+  <a class="card 6c1" href="6c1/project3/index.html">
+    <div class="card-content">
+      <div class="badge">6C1</div>
+      <h2>Oh, Baby...</h2>
+      <p><strong>Author:</strong> Sofi</p>
+    </div>
+  </a>
+
+  <a class="card 6c1" href="6c1/project4/index.html">
+    <div class="card-content">
+      <div class="badge">6C1</div>
+      <h2>Ragnarok</h2>
+      <p><strong>Authors:</strong> Grisha and Andrej</p>
+    </div>
+  </a>
+
+  <a class="card 6c1" href="6c1/project5/index.html">
+    <div class="card-content">
+      <div class="badge">6C1</div>
+      <h2>Dark Quest</h2>
+      <p><strong>Authors:</strong> Evita and Adel</p>
+    </div>
+  </a>
+
+  <a class="card 6c1" href="6c1/project6/index.html">
+    <div class="card-content">
+      <div class="badge">6C1</div>
+      <h2>Яндере БЕЛЛОФФ</h2>
+      <p><strong>Authors:</strong> Varya and Vasya</p>
+    </div>
+  </a>
+
+  <a class="card 6c2" href="6c2/project0/index.html">
+    <img src="6C2/project0/image.png" alt="Travel the Moon">
+    <div class="card-content">
+      <div class="badge">6C2</div>
+      <h2>Travel the Moon</h2>
+      <p><strong>Author:</strong> Petrov Vasya</p>
+    </div>
   </a>
 
   <a class="card 6c2" href="6c2/project1/index.html">
-    <h2>Mystery Quest</h2>
-    <p>Class: 6C2</p>
-    <p>Author: Student name</p>
+    <img src="6C2/project1/image.png" alt="Квест без названия">
+    <div class="card-content">
+      <div class="badge">6C2</div>
+      <h2>Квест без названия (рус)</h2>
+      <p><strong>Authors:</strong> Veta and Gleb [Vibe coding]</p>
+    </div>
+  </a>
+
+  <a class="card 6c2" href="6c2/project2/index.html">
+    <img src="6C2/project2/image.png" alt="ASSASSIN'S CREED">
+    <div class="card-content">
+      <div class="badge">6C2</div>
+      <h2>Gravity Falls</h2>
+      <p><strong>Author:</strong> Anna</p>
+    </div>
+  </a>
+
+  <a class="card 6c2" href="6c2/project3/index.html">
+    <img src="6C2/project3/image.png" alt="ASSASSIN'S CREED">
+    <div class="card-content">
+      <div class="badge">6C2</div>
+      <h2>ASSASSIN'S CREED</h2>
+      <p><strong>Authors:</strong> Pasha and Platon [Vibe coding]</p>
+    </div>
+  </a>
+
+  <a class="card 6c2" href="6c2/project4/index.html">
+    <div class="card-content">
+      <div class="badge">6C2</div>
+      <h2>Яма</h2>
+      <p><strong>Author:</strong> Fedor</p>
+    </div>
+  </a>
+
+  <a class="card 6c2" href="6c2/project5/index.html">
+    <div class="card-content">
+      <div class="badge">6C2</div>
+      <h2>Forest</h2>
+      <p><strong>Author:</strong> Kira</p>
+    </div>
+  </a>
+
+  <a class="card 6c2" href="6c2/project6/index.html">
+    <div class="card-content">
+      <div class="badge">6C2</div>
+      <h2>Life in Prohibitions</h2>
+      <p><strong>Author:</strong> Rada</p>
+    </div>
+  </a>
+
+  <a class="card 6c2" href="6c2/project7/index.html">
+    <div class="card-content">
+      <div class="badge">6C2</div>
+      <h2>School Quest</h2>
+      <p><strong>Author:</strong> Yaroslav</p>
+    </div>
+  </a>
+
+  <a class="card 6c2" href="6c2/project8/index.html">
+    <img src="6C2/project8/image.png" alt="Riddles for Muffins">
+
+    <div class="card-content">
+      <div class="badge">6C2</div>
+      <h2>Riddles for Muffins</h2>
+      <p><strong>Authors:</strong> Mia and Polina</p>
+    </div>
   </a>
 
 </main>
@@ -44,15 +153,17 @@
 function showClass(className) {
   let cards = document.querySelectorAll(".card");
 
-  cards.forEach(card => {
-    if (className === "all" || card.classList.contains(className)) {
-      card.style.display = "block";
+  cards.forEach(function(card) {
+    if (className === "all") {
+      card.classList.remove("hidden");
+    } else if (card.classList.contains(className)) {
+      card.classList.remove("hidden");
     } else {
-      card.style.display = "none";
+      card.classList.add("hidden");
     }
   });
 }
-</script>
+</script>  
 
 </body>
 </html>
