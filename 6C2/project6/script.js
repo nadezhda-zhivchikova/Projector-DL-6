@@ -30,6 +30,26 @@ function saveName() {
     showScene("riddle1");
 }
 
+function saveName2() {
+    let input = document.getElementById("playerNameInput2");
+    let result = document.getElementById("nameResult2");
+
+    playerName = input.value.trim();
+
+    if (playerName === "") {
+        result.innerText = "Please enter your name.";
+        return;
+    }
+
+    let nameElements = document.getElementsByClassName("playerName");
+
+    for (let i = 0; i < nameElements.length; i++) {
+        nameElements[i].innerText = playerName;
+    }
+
+    showScene("meeting with friends");
+}
+
 function checkAnswer(inputId, correctAnswer, successScene, resultId) {
     let userAnswer = document.getElementById(inputId).value;
     let result = document.getElementById(resultId);

@@ -17,7 +17,7 @@
 <p>Choose who you will play for</p>
   
 <button onclick="showScene('choice 1')">a Boy</button>
-<button onclick="showScene('walk with a friend')">a Girl</button>
+<button onclick="showScene('get_name')">a Girl</button>
 </div>
   
 <div id="choice 1" class="scene">
@@ -58,8 +58,20 @@ The choice is yours.</b></p>
 
     <br><br>
 </div>
+<div id="get_name" class="scene">
+ <p></p>
+    <input type="text" id="playerNameInput2" placeholder="Enter your name">
+  <br>
+  
+ <button onclick="saveName2()">Continue</button>
+   <p id="nameResult2"></p>
+
+    <br><br> 
+</div>
+
+  
 <div id="meeting with friends" class="scene">
-  <p>You climbed out through the window (you live on the first floor)</p>
+  <p><span class="playerName"></span>, you climbed out through the window (you live on the first floor)</p>
  <p><b> BUT! you've been swept away
 </b></p>
 <button onclick="showScene('game_over_crazy')">go back home </button>
@@ -71,28 +83,45 @@ The choice is yours.</b></p>
 </div>
   
 <div id="finalyfriends" class="scene">
-  <p>you were spotted and locked in your room GAME OVER </p>
+  <p>You met up with your friends and went for a walk. You all went to an abandoned building with your group of four people. You went in and decided to take a photo. </p>
+  <button onclick="showScene('2+2')">ok </button>
 </div>
 
 <!-- RIDDLE 2 -->
 
-<div id="game_over_1" class="scene">
-    <p><span class="playerName"></span>, you find a locked door with a message:</p>
+<div id="2+2" class="scene">
+    <p><span class="playerName"></span>There's one person missing from the photo. You need to solve this difficult task to win.</p>
 
-    <p><b>What number comes next: 2, 4, 8, 16, ...?</b></p>
+    <p><b>2+2?</b></p>
 
     <input type="text" id="answer1" placeholder="Enter your answer">
 
     <br><br>
 
-    <button onclick="checkAnswer('answer1', '32', 'good_answer', 'result1')">Submit</button>
+    <button onclick="checkAnswer('answer1', '4', 'good_answer', 'result1')">Submit</button>
 
     <p id="result1"></p>
 </div>
 
 <div id="good_answer" class="scene">
-    <p><span class="playerName"></span>, Well done!</p>
+    <p><span class="playerName"></span>In short, well done, you won.</p>
 </div>
+  <div id="meeting whith a friend" class="scene">
+    <p><span class="playerName"></span>Your friend wrote to you that she invites you to go for a walk.</p>
+<button onclick="showScene('cute')">yes I will go</button>
+</div>
+<div id="cute" class="scene">
+    <p><span class="playerName"></span>You were walking, laughing, chatting, and met a very cute kitten.</p>
+<button onclick="showScene('so cute')">soooooo cute</button>
+    </div>
+<div id="so cute" class="scene">
+    <p><span class="playerName"></span>You bought him food and fed him</p>
+<button onclick="showScene('win')">ok</button>
+</div>
+<div id="win" class="scene">
+    <p><span class="playerName"></span>You successfully completed the walk, you won.</p>
+<button onclick="showScene('win')">yeeees</button>
+
   
 <!-- JS -->
 <script src="script.js"></script>
