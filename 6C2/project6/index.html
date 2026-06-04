@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Life in prohibitions</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Life in prohibitions</h1>
+
+<!-- NAME INPUT -->
+<div id="introName" class="scene">
+<p>Choose who you will play for</p>
+  
+<button onclick="showScene('choice 1')">a Boy</button>
+<button onclick="showScene('walk with a friend')">a Girl</button>
+</div>
+  
+<div id="choice 1" class="scene">
+  <p></p>
+    <input type="text" id="playerNameInput" placeholder="Enter your name">
+  <br>
+  
+ <button onclick="saveName()">Continue</button>
+   <p id="nameResult"></p>
+
+    <br><br> 
+</div>
+
+<!-- RIDDLE 1 -->
+
+<div id="riddle1" class="scene">
+    <p><span class="playerName"></span>,Your friends invited you to go with them because they found something strange </p>
+
+    <p><b>Will you go with them?
+The choice is yours.</b></p>
+    
+<button onclick="showScene('escape')">yes I will go</button>
+    
+<button onclick="showScene('game over ')">no I will stay home</button>
+  </div>
+<div id="game over " class="scene">
+  <p>GAME OVER 
+    Well, I don't understand how you can not understand that you should have chosen to go with them.</p>
+</div>
+  
+<!-- RIDDLE 2 -->
+
+<div id="escape" class="scene">
+    <p>you have two options</p>
+
+    <button onclick="showScene('game_over_1')">exit through the front door</button>
+  <button onclick="showScene('meeting with friends')">get out through the window</button>
+
+    <br><br>
+</div>
+<div id="meeting with friends" class="scene">
+  <p>You climbed out through the window (you live on the first floor)</p>
+ <p><b> BUT! you've been swept away
+</b></p>
+<button onclick="showScene('game_over_crazy')">go back home </button>
+  <button onclick="showScene('finalyfriends')">run away </button>
+</div>
+
+<div id="game_over_crazy" class="scene">
+  <p>GAME OVER Are you seriously considering going back? Are you crazy!?</p>
+</div>
+  
+<div id="finalyfriends" class="scene">
+  <p>you were spotted and locked in your room GAME OVER </p>
+</div>
+
+<!-- RIDDLE 2 -->
+
+<div id="game_over_1" class="scene">
+    <p><span class="playerName"></span>, you find a locked door with a message:</p>
+
+    <p><b>What number comes next: 2, 4, 8, 16, ...?</b></p>
+
+    <input type="text" id="answer1" placeholder="Enter your answer">
+
+    <br><br>
+
+    <button onclick="checkAnswer('answer1', '32', 'good_answer', 'result1')">Submit</button>
+
+    <p id="result1"></p>
+</div>
+
+<div id="good_answer" class="scene">
+    <p><span class="playerName"></span>, Well done!</p>
+</div>
+  
+<!-- JS -->
+<script src="script.js"></script>
+
+</body>
+</html>

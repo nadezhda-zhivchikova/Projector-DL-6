@@ -1,6 +1,6 @@
 body {
-    background-color:#D3EEC9;
-    color: #264950;
+    background-color: black;
+    color: #e0e0e0;
     font-family: Arial, sans-serif;
     text-align: center;
 }
@@ -11,10 +11,10 @@ body {
 }
 
 button {
-    background-color: #164;
+    background-color: #900;
     color: white;
     border: none;
-    padding: 5px 15px;
+    padding: 10px 20px;
     margin: 10px;
     cursor: pointer;
     font-size: 16px;

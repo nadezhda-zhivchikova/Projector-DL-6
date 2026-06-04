@@ -1,68 +1,125 @@
-*<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dark Forest Quest</title>
+    <title>Mia Polina Quest</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1> Forest</h1>
+<h1>Riddles for Muffins</h1>
 
+<!-- NAME INPUT -->
 
-<div id="start" class="scene">
-    <p>You wake up in the forest with your brother Tom who lies unconcsios</p>
-    <button onclick="showScene('s1')">Try to run away</button>
-      <button onclick="showScene('s2')">Try to call for HELP </button>
-      <button onclick="showScene('s3')">Try to wake up Tom</button>
+<div id="introName" class="scene">
+       <p>Hi! Welcome to our game! If you have questions(and we believe you do) we will tell you what’s going on</p>
+    <button onclick="showScene('start_scene2')">Tell me</button>
 </div>
+<div id="start_scene2" class="scene"
+  <p>You are a teenager called Sasha, and Sasha(you) is bored during holidays, so Sasha searches for adventure, and one of the adventures is solving riddles. Who knows what will you get for it? </p>
+  <button onclick="showScene('to_solve_or_not')">Well..Okay?</button>
+</div>
+  <div id="to_solve_or_not" class="scene"
+    <p>You start solving the riddles. Do you want to solve these riddles?</p>
+    <button onclick="showScene('riddle1')">Okaaay...</button>
+    <button onclick="showScene('sad')">No leave me alone!</button>
+  </div>
+<div id="sad" class="scene">
+      <p>Sad</p>
+</div>
+    <!-- RIDDLE 1 -->
 
-<div id="s1" class="scene">
-    <p>You ran through the dark forest and the time stops but you still see and move your head. 
-Two people in black are showing signs with their hands, maybe talking .</p>
-       <button onclick="showScene('s4')">Don't move </button>
-</div>
+<div id="riddle1" class="scene"> 
+    
+    <img src="https://i.postimg.cc/1X3LCqfW/5.png" width="300">
+    <br>
 
-  <div id="s3" class="scene">
-    <p>You tryed to wake Tom and then you rialise that he is not breathing and cold, probably dead </p>
-      <button onclick="showScene('s3')"> </button>
-</div>
+    <input type="text" id="answer1" placeholder="Enter your answer">
 
-  <div id="s2" class="scene">
-    <p>When you start screaming you can even hear your voice. Then you relise how stupid was your action, someone dangerous could heard you </p>
-      <button onclick="showScene('s5')"></button>
+    <br><br>
 
-</div>
+    <button onclick="checkAnswer('answer1', 'welcome', 'riddle2', 'end1', 'result1')">Submit</button>
 
-<div id="s4" class="scene">
-    <p>People noitce you with open eyes and then you blink, they are coming to you, but there is nothing you can do about it. They ask about your personal info.</p>
-      <button onclick="showScene('s6')">You answer, but it was a lie </button>
+    <p id="result1"></p>
 </div>
-<div id="s6" class="scene">
-    <p>They brought you in a dark sceary place were someone was screaming for help wich made you throug up, but you staid silent </p>
-      <button onclick="showScene('s7')">fall aslep</button>
-</div>
+  <div id="end1" class="scene">
+    <p>nu chto podelat' zhizn' takaya</p>
+  </div>
 
-  <div id="s7" class="scene">
-    <p>One day past, you were thirsty and exausted,but still silent </p>
-    <button onclick="showScene('s8')">continue staing silent</button>
-</div>
-<div id="s9" class="scene">
-    <p>One day past, you were thirsty and exausted,but still silent </p>
-    <button onclick="showScene('s9')">continue staing silent</button>
-</div>
-<div id="s8" class="scene">
-    <p>After a while you had a sharp pain in your stomach < </p>/ 
-  <button
-onclick="showScene('s8')">Endure</button>
-</div>
-<div id="s9" class="scene">
-    <p>I AM SORRY BUT YOU ARE DEAD< </p>
-  <button
-onclick="showScene('s9')">next</button>
-</div>
+<!-- RIDDLE 2 -->
 
+<div id="riddle2" class="scene">
+  
 
+    
+
+      <img src="https://i.postimg.cc/qvM9XgxM/2.png" width="300">
+    <br>
+
+    <input type="text" id="answer2" placeholder="Enter your answer">
+
+    <br><br>
+
+    <button onclick="checkAnswer('answer2', 'alone', 'riddle3','end2', 'result2')">Submit</button>
+
+    <p id="result2"></p>
+</div>
+  <div id="end2" class="scene">
+    <img src="https://i.postimg.cc/X7sQkvSF/mia3.jpg"
+      width="300">
+  </div>
+  <div id="riddle3" class="scene">
+    
+        <img src="https://i.postimg.cc/wvhfddQX/1.png" width="300">
+    <br>
+    <input type="text" id="answer3" placeholder="Enter your answer">
+    <br><br>
+    <button onclick="checkAnswer('answer3','thinking','riddle4','end3','result3')">Submit</button>
+
+    <p id="result3"></p>
+  </div>
+ <div id="end3" class="scene">
+   <img src="https://i.postimg.cc/hv6hKxQ7/mia4.jpg"
+     width="300">
+ </div>
+  
+<div id="riddle4" class="scene">
+  
+
+  <img src="https://i.postimg.cc/Jnqf5q4f/3.png" width="300">
+  <br>
+  
+  <input type="text" id="answer4" placeholder="Enter your aswer">
+  <br><br>
+  <button onclick="checkAnswer('answer4','swallow','riddle5','end4','result4')">Submit</button>"
+  <p id="result4"></p>
+</div>
+  <div id="end4" class="scene"> 
+    <p>pechal'</p>
+  </div>
+
+  <div id="riddle5" class="scene">
+    
+    <img src="https://i.postimg.cc/V6RxWRkP/4.png" width="300">
+    <br>
+    <input type="text" id="answer5" placeholder="Enter your answer">
+    <br><br> 
+    <button onclick="checkAnswer('answer5','farewell','vse','end5','result5')">Submit</button>"
+    <p id="result5" </p>
+  </div>
+ <div id="end5" class="scene">
+   <img src="https://i.postimg.cc/NFSLQT2H/mia5.jpg"
+     width="300">
+ </div>
+  <div id="vse" class="scene">
+    <p>And that's the end. Your goal is achieved!
+    You got the muffins (and yes, your price was muffins)! And also escaped boredom! Yay! </p> 
+    <img src="https://i.postimg.cc/Nfdpk0qH/mia1.jpg" width="300">
+    <img src="https://i.postimg.cc/FsTDVK5J/mia2.jpg" width="300">
+  </div>
+  
+<!-- JS -->
 <script src="script.js"></script>
+
 </body>
 </html>

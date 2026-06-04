@@ -30,7 +30,7 @@ function saveName() {
     showScene("riddle1");
 }
 
-function checkAnswer(inputId, correctAnswer, successScene, failScene, resultId) {
+function checkAnswer(inputId, correctAnswer, successScene, resultId) {
     let userAnswer = document.getElementById(inputId).value;
     let result = document.getElementById(resultId);
 
@@ -39,15 +39,13 @@ function checkAnswer(inputId, correctAnswer, successScene, failScene, resultId) 
     correctAnswer = correctAnswer.trim().toLowerCase();
 
     if (userAnswer === correctAnswer) {
-        result.innerText = "";
+        result.innerText = "Correct! You can continue.";
 
         setTimeout(function() {
             showScene(successScene);
         }, 1000);
     } else {
-        setTimeout(function() {
-            showScene(failScene);
-        }, 1000);
+        result.innerText = "Wrong answer. Try again!";
     }
 }
 

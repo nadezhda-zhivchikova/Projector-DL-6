@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>School Quest</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>School Quest</h1>
+
+<!-- SCENES -->
+
+<div id="start" class="scene">
+    <p>The lessons are over</p>
+    <button onclick="showScene('s1')">click</button>
+</div>
+
+<div id="s1" class="scene">
+    <p>Everyone left school. Go for a walk with friends or stay at school until the night
+</p>
+    <button onclick="showScene('walk')">Go for a walk with friends
+</button>
+    <button onclick="showScene('stay')">stay in school</button>
+</div>
+
+<div id="stay" class="scene">
+    <p>already 21:00. We have a task to correct bad grades, but to understand that there are still guards in the school
+</p>
+    <button onclick="showScene('tactic')">develop tactics
+</button>
+    <button onclick="showScene('bribe')">Go bribe the guards</button>
+</div>
+
+ <div id="tactic" class="scene">
+    <p>We have developed a tactic
+</p>
+    <button onclick="showScene('disable')">first we need to...
+</button>
+</div>
+  
+<div id="disable" class="scene">
+    <p>...disable the shield to distract the guards.
+</p>
+    <button onclick="showScene('test')">The shield is off, the guards are distracted
+</button>
+</div>
+     <div id="test" class="scene">
+    <p>hack school computers or fix paper tests
+</p>
+    <button onclick="showScene('hacking')">You are hacking computers
+</button>
+    <button onclick="showScene('office')">You get into the director's office
+</button>
+</div>
+
+  <div id="office" class="scene">
+    <p>All the paper tests are in the safe
+</p>
+    <button onclick="showScene('tired')">You have already been very tired because it's already 2 a.m.
+</button>
+</div>
+
+  <div id="tired" class="scene">
+    <p>Do you decide to stay or quietly leave school
+</p>
+    <button onclick="showScene('leave')">You leaving school
+</button>
+    <button onclick="showScene('quitly')">stay in school
+</button>
+</div>
+
+  <div id="leave" class="scene">
+    <p>Everything is good. YOU WIN!
+</p>
+    <button onclick="showScene('start')">restart
+</button>
+</div>
+
+  <div id="quitly" class="scene">
+    <p>guess the password to the safe somehow and correct the marks. YOU WIN!!
+</p>
+    <button onclick="showScene('start')">restart
+</button>
+</div>
+
+  <div id="hacking" class="scene">
+    <p>but you have a problem, you don't know the password for them.
+</p>
+    <button onclick="showScene('problem')">then...
+</button>
+</div>
+
+  <div id="problem" class="scene">
+    <p>you start nervously choosing it
+</p>
+    <button onclick="showScene('but')">but...
+</button>
+</div>
+
+  <div id="but" class="scene">
+    <p>The system understands that you want to hack it and calls the teachers
+</p>
+    <button onclick="showScene('teachers')">next
+</button>
+</div>
+
+  <div id="teachers" class="scene">
+    <p>You have a choice to confess or lie.
+</p>
+    <button onclick="showScene('true')">say true
+</button>
+    <button onclick="showScene('lie')">lie
+</button>
+</div>
+
+  <div id="true" class="scene">
+    <p>You are suspended for 2-3 days and given 6 task sheets. YOU FAILED!
+</p>
+    <button onclick="showScene('start')">restart
+</button>
+</div>
+
+  <div id="lie" class="scene">
+    <p>you are suspended from school and asked for 100,000 rubles. YOU FAILED!!!
+</p>
+    <button onclick="showScene('start')">restart
+</button>
+</div>
+
+  <div id="lie" class="scene">
+    <p>You are suspended for 2-3 days and given 6 task sheets. YOU FAILED!
+</p>
+    <button onclick="showScene('')">
+</button>
+</div>
+  
+  <div id="bribe" class="scene">
+    <p>Petya, Venya, Gosha, Yaroslav went to bribe Alex and Bob's guards
+</p>
+    <button onclick="showScene('end4')">next
+</button>
+</div>
+
+   <div id="end4" class="scene">
+    <p>The guards don't listen to them and expel them from the school.YOU FAILED!!
+</p>
+    <button onclick="showScene('start')">restart
+</button>
+</div>
+  
+<div id="walk" class="scene">
+    <p>spend time in restaurant or spent time in park</p>
+    <button onclick="showScene('park')">You're playing in the park, everything's fine
+</button>
+    <button onclick="showScene('restaurant')">You went to a restaurant ate and went home.</button>
+</div>
+
+<div id="park" class="scene">
+    <p>But suddenly a stranger comes up to you and asks you to help him.</p>
+    <button onclick="showScene('help')">next</button> 
+</div>
+  <div id="restaurant" class="scene">
+    <p>you win</p> 
+  </div>
+
+<div id="help" class="scene">
+    <p>help or not help</p>
+    <button onclick="showScene('fight')">You ignore him
+</button>
+    <button onclick="showScene('end')">help him</button>
+</div>
+
+  <div id="fight" class="scene">
+    <p>help or not help</p>
+    <button onclick="showScene('lean')">You ignore him
+</button>
+    <button onclick="showScene('end')">help him</button>
+</div>
+  
+  <div id="lean" class="scene">
+    <p>he starts to lean on you.</p>
+    <button onclick="showScene('hospital')">next
+    </button>
+  </div>
+  
+<div id="end" class="scene">
+    <p>you feiled</p>
+    <button onclick="showScene('start')">restart
+    </button>
+  </div>
+
+  <div id="hospital" class="scene">
+    <p>As a result, he severely wounds you and you end up in the hospital.</p>
+    <button onclick="showScene('dead')">next
+    </button>
+  </div>
+
+<div id="dead" class="scene">
+    <p>You have a choice to undergo treatment and go home or go to certain death.</p>
+    <button onclick="showScene('end2')">undergo treatment
+    </button>
+      <button onclick="showScene('end3')">To go to certain death
+    </button>
+  </div>
+
+<div id="end2" class="scene">
+    <p>Have you gone through treatment.you win</p>
+    <button onclick="showScene('start')">restart
+    </button>
+  
+  </div>
+  
+   <div id="hospital" class="scene">
+    <p>As a result, he severely wounds you and you end up in the hospital.</p>
+    
+  </div>
+  
+<!-- JS -->
+<script src="script.js"></script>
+
+</body>
+</html>
